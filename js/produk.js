@@ -69,8 +69,7 @@ document.getElementById("senaraiProduk").innerHTML = html;
 }
 
 
-loadProduk();
-loadSupplier();
+
 async function loadSupplier(){
 
     const { data, error } = await supabaseClient
@@ -104,7 +103,8 @@ async function loadSupplier(){
     document.getElementById("supplier_id").innerHTML = html;
 
 }
-
+loadProduk();
+loadSupplier();
 async function tambahProduk(){
 
 
