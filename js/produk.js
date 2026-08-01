@@ -1,10 +1,20 @@
+// ==========================
+// LOAD PRODUK
+// ==========================
+
 async function loadProduk(){
 
 
 const { data, error } = await supabaseClient
 .from("produk")
-.select("*")
+.select(`
+    *,
+    supplier(
+        nama_supplier
+    )
+`)
 .order("id",{ascending:false});
+
 
 
 if(error){
@@ -15,7 +25,9 @@ if(error){
 }
 
 
+
 let html = "";
+
 
 
 data.forEach(p=>{
@@ -35,28 +47,45 @@ html += `
 
 <td>${p.jenis_motor ?? ""}</td>
 
+<td>${p.supplier?.nama_supplier ?? "-"}</td>
+
+<td>${p.lokasi_rak ?? "-"}</td>
+
 <td>${p.stok ?? 0}</td>
 
 <td>RM ${p.harga_jual ?? 0}</td>
 
+<td>${p.status ?? "-"}</td>
+
 
 <td>
 
-<button class="btn btn-sm btn-warning">
+
+<button 
+class="btn btn-sm btn-warning"
+onclick="editProduk(${p.id})">
 Edit
 </button>
 
-<button class="btn btn-sm btn-danger">
+
+
+<button 
+class="btn btn-sm btn-danger"
+onclick="padamProduk(${p.id})">
 Padam
 </button>
 
+
 </td>
 
+
 </tr>
+
 
 `;
 
 });
+
 
 
 document.getElementById("senaraiProduk").innerHTML = html;
@@ -67,29 +96,26 @@ document.getElementById("senaraiProduk").innerHTML = html;
 
 
 
+
 // ==========================
-// LOAD SUPPLIER DROPDOWN
+// LOAD SUPPLIER
 // ==========================
+
 
 async function loadSupplier(){
 
 
-const { data, error } = await supabaseClient
+const { data,error } = await supabaseClient
 .from("supplier")
 .select("*")
 .order("nama_supplier");
 
 
 
-console.log("Supplier:",data);
-console.log("Error:",error);
-
-
-
 if(error){
 
-    console.log(error);
-    return;
+console.log(error);
+return;
 
 }
 
@@ -114,7 +140,6 @@ ${s.nama_supplier}
 
 `;
 
-
 });
 
 
@@ -136,87 +161,77 @@ document.getElementById("supplier_id").innerHTML = html;
 async function tambahProduk(){
 
 
-
 const produk = {
 
 
 kod_produk:
-document.getElementById("kod_produk").value,
+kod_produk.value,
 
 
 barcode:
-document.getElementById("barcode").value,
+barcode.value,
 
 
 no_part:
-document.getElementById("no_part").value,
+no_part.value,
 
 
 nama_produk:
-document.getElementById("nama_produk").value,
+nama_produk.value,
 
 
 jenama:
-document.getElementById("jenama").value,
+jenama.value,
 
 
 jenis_motor:
-document.getElementById("jenis_motor").value,
+jenis_motor.value,
 
 
 kategori:
-document.getElementById("kategori").value,
+kategori.value,
 
 
 unit:
-document.getElementById("unit").value,
+unit.value,
 
 
 lokasi_rak:
-document.getElementById("lokasi_rak").value,
-
+lokasi_rak.value,
 
 
 supplier_id:
-document.getElementById("supplier_id").value || null,
-
+supplier_id.value || null,
 
 
 harga_modal:
-Number(document.getElementById("harga_modal").value || 0),
-
+Number(harga_modal.value || 0),
 
 
 harga_jual:
-Number(document.getElementById("harga_jual").value || 0),
-
+Number(harga_jual.value || 0),
 
 
 stok:
-Number(document.getElementById("stok").value || 0),
-
+Number(stok.value || 0),
 
 
 stok_minimum:
-Number(document.getElementById("stok_minimum").value || 0),
-
+Number(stok_minimum.value || 0),
 
 
 status:
-document.getElementById("status").value,
-
+status.value,
 
 
 catatan:
-document.getElementById("catatan").value
-
+catatan.value
 
 };
 
 
 
-
-const {error} = await supabaseClient
+const {error}=await supabaseClient
 .from("produk")
 .insert(produk);
 
@@ -224,27 +239,135 @@ const {error} = await supabaseClient
 
 if(error){
 
-
 alert(error.message);
-
-console.log(error);
-
 
 }
 
 else{
 
-
 alert("Produk berjaya ditambah");
-
 
 location.reload();
 
+}
+
+
+}
+
+
+
+
+
+
+
+// ==========================
+// EDIT PRODUK
+// ==========================
+
+
+async function editProduk(id){
+
+
+const {data,error}=await supabaseClient
+.from("produk")
+.select("*")
+.eq("id",id)
+.single();
+
+
+
+if(error){
+
+alert(error.message);
+return;
+
+}
+
+
+
+let nama = prompt(
+"Nama Produk",
+data.nama_produk
+);
+
+
+
+if(nama==null) return;
+
+
+
+const {error:updateError}=await supabaseClient
+.from("produk")
+.update({
+
+nama_produk:nama
+
+})
+.eq("id",id);
+
+
+
+if(updateError){
+
+alert(updateError.message);
+
+}
+
+else{
+
+alert("Produk berjaya dikemaskini");
+
+loadProduk();
 
 }
 
 
 }
+
+
+
+
+
+
+
+// ==========================
+// PADAM PRODUK
+// ==========================
+
+
+async function padamProduk(id){
+
+
+
+if(!confirm("Padam produk ini?"))
+return;
+
+
+
+const {error}=await supabaseClient
+.from("produk")
+.delete()
+.eq("id",id);
+
+
+
+if(error){
+
+alert(error.message);
+
+}
+
+else{
+
+alert("Produk dipadam");
+
+loadProduk();
+
+}
+
+
+}
+
 
 
 
@@ -257,15 +380,11 @@ location.reload();
 
 async function logout(){
 
-
 await supabaseClient.auth.signOut();
-
 
 window.location.href="index.html";
 
-
 }
-
 
 
 
