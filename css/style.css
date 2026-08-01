@@ -9,36 +9,58 @@
 }
 
 
+
 body{
+
     background:#f4f6fb;
+
 }
 
 
-/* SIDEBAR */
+
+/* =========================
+   SIDEBAR
+========================= */
+
 
 .sidebar{
 
     background:#111827;
+
     min-height:100vh;
+
     padding:25px 15px;
 
 }
 
 
+
 .logo{
 
-    color:white;
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
     font-size:28px;
+
     font-weight:700;
 
+    color:white;
+
 }
+
 
 
 .logo i{
 
     color:#dc2626;
 
+    font-size:32px;
+
 }
+
 
 
 .logo span{
@@ -48,7 +70,8 @@ body{
 }
 
 
-.sidebar small{
+
+.sidebar p{
 
     color:#94a3b8;
 
@@ -56,11 +79,20 @@ body{
 
 
 
-.menu a{
+/* MENU LINK */
 
-    display:block;
-    text-decoration:none;
+
+.sidebar a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
     color:#cbd5e1;
+
+    text-decoration:none;
 
     padding:12px 15px;
 
@@ -70,29 +102,59 @@ body{
 
     transition:.3s;
 
+    font-size:15px;
+
 }
 
 
 
-.menu a:hover,
-.menu a.active{
+.sidebar a i{
+
+    font-size:18px;
+
+}
+
+
+
+.sidebar a:hover,
+.sidebar a.active{
 
     background:#dc2626;
+
     color:white;
 
 }
 
 
 
-.menu i{
+/* LOGOUT BUTTON */
 
-    margin-right:10px;
+
+.sidebar .btn-danger{
+
+    background:#dc2626;
+
+    border:none;
+
+    border-radius:12px;
+
+    padding:12px;
 
 }
 
 
 
-/* CONTENT */
+.sidebar .btn-danger:hover{
+
+    background:#b91c1c;
+
+}
+
+
+
+/* =========================
+   CONTENT
+========================= */
 
 
 .content{
@@ -101,6 +163,9 @@ body{
 
 }
 
+
+
+/* TOP BAR */
 
 
 .topbar{
@@ -123,7 +188,30 @@ body{
 
 
 
-/* CARD */
+/* =========================
+   CARD
+========================= */
+
+
+.card{
+
+    border:none;
+
+    border-radius:18px;
+
+}
+
+
+
+.shadow{
+
+    box-shadow:0 5px 20px rgba(0,0,0,.06)!important;
+
+}
+
+
+
+/* DASHBOARD CARD */
 
 
 .stat-card{
@@ -160,27 +248,135 @@ body{
 
     font-size:25px;
 
-    margin-bottom:15px;
-
 }
 
 
 
-.box{
+/* =========================
+   TABLE
+========================= */
+
+
+.table{
 
     background:white;
 
-    border-radius:18px;
+    border-radius:15px;
 
-    padding:20px;
-
-    box-shadow:0 5px 20px rgba(0,0,0,.06);
+    overflow:hidden;
 
 }
 
 
 
-/* MOBILE */
+.table thead th{
+
+    background:#111827;
+
+    color:white;
+
+    font-weight:500;
+
+}
+
+
+
+.table tbody tr:hover{
+
+    background:#fee2e2;
+
+}
+
+
+
+/* =========================
+   FORM
+========================= */
+
+
+.form-control,
+.form-select{
+
+    border-radius:12px;
+
+    padding:10px;
+
+    border:1px solid #e5e7eb;
+
+}
+
+
+
+.form-control:focus,
+.form-select:focus{
+
+    border-color:#dc2626;
+
+    box-shadow:0 0 0 .2rem rgba(220,38,38,.15);
+
+}
+
+
+
+/* BUTTON */
+
+
+.btn-danger{
+
+    background:#dc2626;
+
+    border:none;
+
+    border-radius:12px;
+
+}
+
+
+
+.btn-danger:hover{
+
+    background:#b91c1c;
+
+}
+
+
+
+.btn-success{
+
+    border-radius:12px;
+
+}
+
+
+
+/* =========================
+   MODAL
+========================= */
+
+
+.modal-content{
+
+    border:none;
+
+    border-radius:20px;
+
+}
+
+
+
+.modal-header{
+
+    background:#111827;
+
+    color:white;
+
+}
+
+
+
+/* =========================
+   MOBILE
+========================= */
 
 
 @media(max-width:768px){
@@ -204,89 +400,12 @@ body{
 }
 
 
-}
 
-/* =========================
-   SIDEBAR PREMIUM
-========================= */
+.table{
 
-
-.sidebar{
-
-    background:#111827;
-
-    min-height:100vh;
-
-    padding:25px;
+    font-size:13px;
 
 }
 
-
-.sidebar a{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:12px;
-
-    color:#d1d5db;
-
-    text-decoration:none;
-
-    padding:12px 15px;
-
-    margin-bottom:8px;
-
-    border-radius:12px;
-
-    transition:.3s;
-
-}
-
-
-
-.sidebar a:hover,
-.sidebar a.active{
-
-    background:#dc2626;
-
-    color:white;
-
-}
-
-
-
-.sidebar a i{
-
-    font-size:18px;
-
-}
-
-
-
-.logo{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:12px;
-
-    font-size:26px;
-
-    font-weight:700;
-
-    color:white;
-
-}
-
-
-
-.logo i{
-
-    color:#dc2626;
-
-    font-size:32px;
 
 }
