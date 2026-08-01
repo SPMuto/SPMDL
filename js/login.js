@@ -12,6 +12,6 @@ async function login() {
         alert("Login gagal: " + error.message);
     } else {
         alert("Login berjaya!");
-        window.location.href = "dashboard.html";
+        window.location.href = "index.html";
     }
 }
