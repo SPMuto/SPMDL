@@ -82,7 +82,7 @@ Logout
 </h2>
 
 
-<button class="btn btn-danger mb-3">
+<button class="btn btn-danger mb-3" data-bs-toggle="modal" data-bs-target="#modalProduk">
 + Tambah Produk
 </button>
 
@@ -140,7 +140,60 @@ Logout
 <script src="js/config.js"></script>
 
 <script src="js/produk.js"></script>
+<div class="modal fade" id="modalProduk">
 
+<div class="modal-dialog">
+
+<div class="modal-content">
+
+<div class="modal-header">
+
+<h5 class="modal-title">
+Tambah Produk
+</h5>
+
+<button class="btn-close" data-bs-dismiss="modal"></button>
+
+</div>
+
+
+<div class="modal-body">
+
+
+<input id="kod_produk" class="form-control mb-2" placeholder="Kod Produk">
+
+<input id="barcode" class="form-control mb-2" placeholder="Barcode">
+
+<input id="nama_produk" class="form-control mb-2" placeholder="Nama Produk">
+
+<input id="jenama" class="form-control mb-2" placeholder="Jenama">
+
+<input id="jenis_motor" class="form-control mb-2" placeholder="Jenis Motor">
+
+<input id="kategori" class="form-control mb-2" placeholder="Kategori">
+
+<input id="stok" type="number" class="form-control mb-2" placeholder="Stok">
+
+<input id="harga_jual" type="number" class="form-control mb-2" placeholder="Harga Jual">
+
+
+</div>
+
+
+<div class="modal-footer">
+
+<button onclick="tambahProduk()" class="btn btn-danger">
+Simpan
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
 
 </body>
 
