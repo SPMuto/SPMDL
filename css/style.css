@@ -53,11 +53,28 @@ body{
 
 
 
-.logo i{
+/* LOGO IMAGE */
+
+.logo img{
+
+    width:55px;
+
+    height:55px;
+
+    object-fit:contain;
+
+}
+
+
+/* LOGO TEXT */
+
+.logo span{
 
     color:#dc2626;
 
-    font-size:32px;
+    font-size:28px;
+
+    font-weight:700;
 
 }
 
@@ -69,7 +86,24 @@ body{
 
 }
 
+.logo div{
 
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+
+.logo small{
+
+    color:#94a3b8;
+
+    font-size:11px;
+
+    font-weight:400;
+
+}
 
 .sidebar p{
 
