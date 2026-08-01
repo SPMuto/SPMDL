@@ -205,3 +205,88 @@ body{
 
 
 }
+
+/* =========================
+   SIDEBAR PREMIUM
+========================= */
+
+
+.sidebar{
+
+    background:#111827;
+
+    min-height:100vh;
+
+    padding:25px;
+
+}
+
+
+.sidebar a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    color:#d1d5db;
+
+    text-decoration:none;
+
+    padding:12px 15px;
+
+    margin-bottom:8px;
+
+    border-radius:12px;
+
+    transition:.3s;
+
+}
+
+
+
+.sidebar a:hover,
+.sidebar a.active{
+
+    background:#dc2626;
+
+    color:white;
+
+}
+
+
+
+.sidebar a i{
+
+    font-size:18px;
+
+}
+
+
+
+.logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    font-size:26px;
+
+    font-weight:700;
+
+    color:white;
+
+}
+
+
+
+.logo i{
+
+    color:#dc2626;
+
+    font-size:32px;
+
+}
