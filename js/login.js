@@ -1,17 +1,24 @@
-async function login() {
+document.getElementById("loginForm").addEventListener("submit", async function(e){
+
+    e.preventDefault();
 
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
     const { data, error } = await supabaseClient.auth.signInWithPassword({
-        email: email,
-        password: password
+        email,
+        password
     });
 
-    if (error) {
-        alert("Login gagal: " + error.message);
-    } else {
-        alert("Login berjaya!");
-        window.location.href = "dashboard.html";
+    if(error){
+        document.getElementById("message").innerHTML =
+        "Login gagal: " + error.message;
     }
-}
+    else{
+        document.getElementById("message").innerHTML =
+        "Login berjaya";
+
+        window.location.href="dashboard.html";
+    }
+
+});
