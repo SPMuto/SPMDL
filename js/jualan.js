@@ -207,7 +207,6 @@ document.getElementById("jumlah").innerHTML=total;
 
 
 
-
 // ==========================
 // SIMPAN JUALAN
 // ==========================
