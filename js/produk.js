@@ -70,7 +70,40 @@ document.getElementById("senaraiProduk").innerHTML = html;
 
 
 loadProduk();
+loadSupplier();
+async function loadSupplier(){
 
+    const { data, error } = await supabaseClient
+    .from("supplier")
+    .select("*")
+    .order("nama_supplier");
+
+
+    if(error){
+
+        console.log(error);
+        return;
+
+    }
+
+
+    let html = `<option value="">Pilih Supplier</option>`;
+
+
+    data.forEach(s => {
+
+        html += `
+        <option value="${s.id}">
+            ${s.nama_supplier}
+        </option>
+        `;
+
+    });
+
+
+    document.getElementById("supplier_id").innerHTML = html;
+
+}
 
 async function tambahProduk(){
 
