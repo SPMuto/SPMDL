@@ -31,40 +31,32 @@
 
 <div class="container-fluid">
 
-
 <div class="row">
-
 
 
 <!-- SIDEBAR -->
 
-<div class="col-lg-2 sidebar">
+<div class="col-md-3 col-lg-2 sidebar">
 
 
 <div class="logo mb-4">
 
-<img src="img/logo.png" alt="SPMDL Logo">
-
-<div>
+<i class="bi bi-box-seam-fill"></i>
 
 <span>SPMDR</span>
 
-<small>
+</div>
+
+
+<p class="text-secondary small mb-4">
 Sistem Pengurusan Sparepart
-</small>
-
-</div>
-</div>
-<hr class="text-secondary">
+</p>
 
 
-
-<div class="menu">
-
-
-<a class="active" href="dashboard.html">
+<a href="dashboard.html" class="active">
 
 <i class="bi bi-speedometer2"></i>
+
 Dashboard
 
 </a>
@@ -73,71 +65,79 @@ Dashboard
 <a href="produk.html">
 
 <i class="bi bi-box"></i>
+
 Produk
 
 </a>
 
 
-
 <a href="supplier.html">
 
 <i class="bi bi-truck"></i>
+
 Supplier
 
 </a>
 
 
-
 <a href="pelanggan.html">
 
 <i class="bi bi-people"></i>
+
 Pelanggan
 
 </a>
 
 
-
 <a href="barang_masuk.html">
 
 <i class="bi bi-box-arrow-in-down"></i>
+
 Barang Masuk
 
 </a>
 
 
-
 <a href="barang_keluar.html">
 
 <i class="bi bi-box-arrow-up"></i>
+
 Barang Keluar
 
 </a>
 
 
-
 <a href="jualan.html">
 
-<i class="bi bi-cart"></i>
+<i class="bi bi-cart3"></i>
+
 Jualan
 
 </a>
 
 
-
 <a href="laporan.html">
 
 <i class="bi bi-bar-chart"></i>
+
 Laporan
 
 </a>
 
 
-</div>
+<a href="tetapan.html">
+
+<i class="bi bi-gear"></i>
+
+Tetapan
+
+</a>
 
 
+<hr class="text-secondary">
 
-<button onclick="logout()" 
-class="btn btn-danger w-100 mt-4">
+
+<button onclick="logout()" class="btn btn-danger w-100">
 
 <i class="bi bi-box-arrow-right"></i>
 
@@ -154,267 +154,140 @@ Logout
 
 <!-- CONTENT -->
 
-
-<div class="col-lg-10 content">
-
+<div class="col-md-9 col-lg-10 p-4">
 
 
-<div class="topbar mb-4">
+<h2>
+📊 Dashboard
+</h2>
 
 
-<div>
-
-<h3>
-
-Dashboard
-
-</h3>
-
-
-<p class="text-muted mb-0">
-
-Selamat datang ke SPMDL
-
-</p>
-
-
-</div>
-
-
-
-<div>
-
-<i class="bi bi-person-circle fs-3"></i>
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-<div class="row g-4">
-
+<div class="row g-4 mt-2">
 
 
 <div class="col-md-3">
 
+<div class="card shadow p-3">
 
-<div class="stat-card">
-
-
-<div class="stat-icon">
-
-<i class="bi bi-box"></i>
-
-</div>
-
+<i class="bi bi-box fs-2"></i>
 
 <h6>
-
 Jumlah Produk
-
 </h6>
-
 
 <h2 id="jumlahProduk">
-
 0
-
 </h2>
 
-
 </div>
 
-
 </div>
-
-
 
 
 
 <div class="col-md-3">
 
+<div class="card shadow p-3">
 
-<div class="stat-card">
-
-
-<div class="stat-icon">
-
-<i class="bi bi-cash"></i>
-
-</div>
-
+<i class="bi bi-cash fs-2"></i>
 
 <h6>
-
 Nilai Stok
-
 </h6>
-
 
 <h2 id="nilaiStok">
-
 RM 0
-
 </h2>
 
-
 </div>
 
-
 </div>
-
-
 
 
 
 <div class="col-md-3">
 
+<div class="card shadow p-3">
 
-<div class="stat-card">
-
-
-<div class="stat-icon">
-
-<i class="bi bi-exclamation-triangle"></i>
-
-</div>
-
+<i class="bi bi-exclamation-triangle fs-2"></i>
 
 <h6>
-
 Stok Rendah
-
 </h6>
-
 
 <h2 id="stokRendah">
-
 0
-
 </h2>
 
-
 </div>
 
-
 </div>
-
-
 
 
 
 <div class="col-md-3">
 
+<div class="card shadow p-3">
 
-<div class="stat-card">
-
-
-<div class="stat-icon">
-
-<i class="bi bi-cart-check"></i>
-
-</div>
-
+<i class="bi bi-cart-check fs-2"></i>
 
 <h6>
-
 Jualan Hari Ini
-
 </h6>
 
-
 <h2 id="jualanHariIni">
-
 RM 0
-
 </h2>
 
+</div>
 
 </div>
 
 
 </div>
-
-
-</div>
-
-
-
-
-
 
 
 <br>
 
 
-
-<div class="box mb-4">
-
+<div class="card shadow p-4 mb-4">
 
 <h5>
-
 📥 Barang Masuk Hari Ini
-
 </h5>
 
-
 <p class="text-muted">
-
 Tiada rekod
-
 </p>
-
 
 </div>
 
 
-
-
-
-<div class="box mb-4">
-
+<div class="card shadow p-4 mb-4">
 
 <h5>
-
 📋 Transaksi Terkini
-
 </h5>
 
-
 <p class="text-muted">
-
 Tiada transaksi
-
 </p>
-
 
 </div>
 
 
-
-
-
-<div class="box">
-
+<div class="card shadow p-4">
 
 <h5>
-
 📊 Carta Jualan Bulanan
-
 </h5>
 
-
 <p class="text-muted">
-
 Carta akan disambungkan
-
 </p>
 
+</div>
+
 
 </div>
 
@@ -422,7 +295,6 @@ Carta akan disambungkan
 
 
 
-</div>
 
 
 </div>
