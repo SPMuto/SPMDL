@@ -77,29 +77,51 @@ async function tambahProduk(){
 
 const produk = {
 
-kod_produk:
-document.getElementById("kod_produk").value,
+kod_produk: document.getElementById("kod_produk").value,
 
-barcode:
-document.getElementById("barcode").value,
+barcode: document.getElementById("barcode").value,
 
-nama_produk:
-document.getElementById("nama_produk").value,
+no_part: document.getElementById("no_part").value,
 
-jenama:
-document.getElementById("jenama").value,
+nama_produk: document.getElementById("nama_produk").value,
 
-jenis_motor:
-document.getElementById("jenis_motor").value,
+jenama: document.getElementById("jenama").value,
 
-kategori:
-document.getElementById("kategori").value,
+jenis_motor: document.getElementById("jenis_motor").value,
 
-stok:
-Number(document.getElementById("stok").value),
+kategori: document.getElementById("kategori").value,
+
+unit: document.getElementById("unit").value,
+
+lokasi_rak: document.getElementById("lokasi_rak").value,
+
+
+supplier_id: 
+document.getElementById("supplier_id").value || null,
+
+
+harga_modal:
+Number(document.getElementById("harga_modal").value || 0),
+
 
 harga_jual:
-Number(document.getElementById("harga_jual").value)
+Number(document.getElementById("harga_jual").value || 0),
+
+
+stok:
+Number(document.getElementById("stok").value || 0),
+
+
+stok_minimum:
+Number(document.getElementById("stok_minimum").value || 0),
+
+
+status:
+document.getElementById("status").value,
+
+
+catatan:
+document.getElementById("catatan").value
 
 };
 
@@ -114,6 +136,8 @@ const {error} = await supabaseClient
 if(error){
 
 alert(error.message);
+
+console.log(error);
 
 }
 
