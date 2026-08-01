@@ -9,7 +9,8 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
         email,
         password
     });
-
+console.log(data);
+console.log(error);
     if(error){
         document.getElementById("message").innerHTML =
         "Login gagal: " + error.message;
