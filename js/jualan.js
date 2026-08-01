@@ -326,9 +326,8 @@ alert(
 "Jualan berjaya. Resit: "+no_resit
 );
 
-
-
-location.reload();
+window.location.href =
+"resit.html?id="+jualan.id;
 
 
 
