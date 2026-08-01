@@ -154,10 +154,11 @@ Tambah Produk
 
 <div class="modal-body">
 
-
 <input id="kod_produk" class="form-control mb-2" placeholder="Kod Produk">
 
 <input id="barcode" class="form-control mb-2" placeholder="Barcode">
+
+<input id="no_part" class="form-control mb-2" placeholder="No Part">
 
 <input id="nama_produk" class="form-control mb-2" placeholder="Nama Produk">
 
@@ -167,9 +168,57 @@ Tambah Produk
 
 <input id="kategori" class="form-control mb-2" placeholder="Kategori">
 
-<input id="stok" type="number" class="form-control mb-2" placeholder="Stok">
+<input id="unit" class="form-control mb-2" placeholder="Unit (PCS/SET/BOTOL)">
 
-<input id="harga_jual" type="number" class="form-control mb-2" placeholder="Harga Jual">
+<input id="lokasi_rak" class="form-control mb-2" placeholder="Lokasi Rak">
+
+
+<select id="supplier_id" class="form-control mb-2">
+<option value="">Pilih Supplier</option>
+</select>
+
+
+<input id="harga_modal" 
+type="number" 
+class="form-control mb-2" 
+placeholder="Harga Modal">
+
+
+<input id="harga_jual" 
+type="number" 
+class="form-control mb-2" 
+placeholder="Harga Jual">
+
+
+<input id="stok" 
+type="number" 
+class="form-control mb-2" 
+placeholder="Stok">
+
+
+<input id="stok_minimum" 
+type="number" 
+class="form-control mb-2" 
+placeholder="Stok Minimum">
+
+
+<select id="status" class="form-control mb-2">
+
+<option value="AKTIF">
+AKTIF
+</option>
+
+<option value="TIDAK AKTIF">
+TIDAK AKTIF
+</option>
+
+</select>
+
+
+<textarea 
+id="catatan" 
+class="form-control mb-2" 
+placeholder="Catatan"></textarea>
 
 
 </div>
