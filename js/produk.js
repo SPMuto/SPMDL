@@ -70,3 +70,60 @@ document.getElementById("senaraiProduk").innerHTML = html;
 
 
 loadProduk();
+
+
+async function tambahProduk(){
+
+
+const produk = {
+
+kod_produk:
+document.getElementById("kod_produk").value,
+
+barcode:
+document.getElementById("barcode").value,
+
+nama_produk:
+document.getElementById("nama_produk").value,
+
+jenama:
+document.getElementById("jenama").value,
+
+jenis_motor:
+document.getElementById("jenis_motor").value,
+
+kategori:
+document.getElementById("kategori").value,
+
+stok:
+Number(document.getElementById("stok").value),
+
+harga_jual:
+Number(document.getElementById("harga_jual").value)
+
+};
+
+
+
+const {error} = await supabaseClient
+.from("produk")
+.insert(produk);
+
+
+
+if(error){
+
+alert(error.message);
+
+}
+
+else{
+
+alert("Produk berjaya ditambah");
+
+location.reload();
+
+}
+
+
+}
