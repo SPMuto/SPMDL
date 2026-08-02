@@ -1,138 +1,152 @@
-// ======================================
-// SPMDR - STOK RENDAH
-// ======================================
-
-// Semak login
-checkUser();
-
-// Muatkan data
-loadStokRendah();
+// ==========================
+// PAPAR PRODUK STOK RENDAH
+// ==========================
 
 
-// ======================================
-// LOAD DATA
-// ======================================
+async function loadStokRendah(){
 
-async function loadStokRendah() {
 
-    const { data, error } = await supabaseClient
-        .from("produk")
-        .select("*")
-        .order("nama_produk", { ascending: true });
+const {data,error}=await supabaseClient
+.from("produk")
+.select("*")
+.lte("stok","stok_minimum")
+.order("nama_produk");
 
-    if (error) {
-        console.log(error);
-        return;
-    }
 
-    let jumlahProduk = data.length;
-    let jumlahRendah = 0;
-    let stokHabis = 0;
 
-    let html = "";
+if(error){
 
-    data.forEach(item => {
+console.log(error);
 
-        let stok = Number(item.stok);
-        let minimum = Number(item.stok_minimum);
-
-        if (stok <= minimum) {
-
-            jumlahRendah++;
-
-            let badge = "";
-
-            if (stok == 0) {
-
-                stokHabis++;
-
-                badge = `
-                <span class="badge bg-danger">
-                    HABIS
-                </span>
-                `;
-
-            } else {
-
-                badge = `
-                <span class="badge bg-warning text-dark">
-                    RENDAH
-                </span>
-                `;
-
-            }
-
-            html += `
-            <tr>
-
-                <td>${item.kod_produk}</td>
-
-                <td>${item.nama_produk}</td>
-
-                <td>${item.jenama ?? "-"}</td>
-
-                <td>${item.jenis_motor ?? "-"}</td>
-
-                <td>${item.no_part ?? "-"}</td>
-
-                <td class="text-center fw-bold">
-
-                    ${stok}
-
-                </td>
-
-                <td class="text-center">
-
-                    ${minimum}
-
-                </td>
-
-                <td>
-
-                    ${badge}
-
-                </td>
-
-                <td>
-
-                    <a href="produk.html"
-                    class="btn btn-sm btn-primary">
-
-                        <i class="bi bi-pencil"></i>
-
-                    </a>
-
-                </td>
-
-            </tr>
-            `;
-
-        }
-
-    });
-
-    if (html == "") {
-
-        html = `
-        <tr>
-
-            <td colspan="9" class="text-center text-success">
-
-                🎉 Tiada produk stok rendah.
-
-            </td>
-
-        </tr>
-        `;
-
-    }
-
-    document.getElementById("senaraiStokRendah").innerHTML = html;
-
-    document.getElementById("jumlahProduk").innerHTML = jumlahProduk;
-
-    document.getElementById("jumlahRendah").innerHTML = jumlahRendah;
-
-    document.getElementById("stokHabis").innerHTML = stokHabis;
+return;
 
 }
+
+
+
+let html="";
+
+
+
+if(data.length==0){
+
+
+html=`
+
+<tr>
+
+<td colspan="7" class="text-center">
+
+Tiada produk stok rendah
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+else{
+
+
+data.forEach(p=>{
+
+
+let gabungan =
+p.nama_produk +
+" " +
+(p.jenama ?? "") +
+" " +
+(p.jenis_motor ?? "");
+
+
+
+html +=`
+
+<tr>
+
+
+<td>
+${p.kod_produk}
+</td>
+
+
+<td>
+${gabungan}
+</td>
+
+
+<td>
+${p.jenama ?? "-"}
+</td>
+
+
+<td>
+${p.jenis_motor ?? "-"}
+</td>
+
+
+<td>
+
+<span class="badge bg-danger">
+
+${p.stok}
+
+</span>
+
+</td>
+
+
+<td>
+${p.stok_minimum}
+</td>
+
+
+<td>
+
+<span class="badge bg-warning text-dark">
+
+STOK RENDAH
+
+</span>
+
+</td>
+
+
+</tr>
+
+
+`;
+
+
+});
+
+
+}
+
+
+
+document.getElementById("senaraiStokRendah").innerHTML=html;
+
+
+}
+
+
+
+
+
+// LOGOUT
+
+async function logout(){
+
+await supabaseClient.auth.signOut();
+
+window.location.href="index.html";
+
+}
+
+
+
+
+loadStokRendah();
