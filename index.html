@@ -1,67 +1,39 @@
 <!DOCTYPE html>
-<html lang="ms">
+<html>
 <head>
-  <!-- Google Font -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>SPMDR</title>
 
-<!-- Bootstrap Icons -->
-<link rel="stylesheet"
-href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-</head>
-
-<body class="bg-dark">
-
-<div class="container vh-100 d-flex justify-content-center align-items-center">
-
-<div class="card shadow-lg p-4" style="max-width:420px;width:100%;border-radius:20px;">
-
-<h2 class="text-center text-danger fw-bold mb-4">
-SPMDR
-</h2>
-
-<p class="text-center text-muted">
-Sistem Pengurusan Sparepart Muto Dalang Rock
-</p>
-
-<form id="loginForm">
-
-<div class="mb-3">
-<label>Email</label>
-<input
-type="email"
-id="email"
-class="form-control"
-placeholder="Email">
-</div>
-
-<div class="mb-3">
-<label>Password</label>
-<input
-type="password"
-id="password"
-class="form-control"
-placeholder="Password">
-</div>
-
-<button type="submit" class="btn btn-danger w-100">
-    Log Masuk
-</button>
-
-</form>
-
-<div id="message" class="mt-3 text-center"></div>
-
-</div>
-
-</div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="js/config.js"></script>
 
-<script src="js/login.js"></script>
+<script>
+
+(async()=>{
+
+const {data}=await supabaseClient.auth.getSession();
+
+if(data.session){
+
+window.location="dashboard.html";
+
+}else{
+
+window.location="login.html";
+
+}
+
+})();
+
+</script>
+
+</head>
+
+<body>
+
+Loading...
 
 </body>
+
 </html>
