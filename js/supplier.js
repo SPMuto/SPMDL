@@ -184,7 +184,38 @@ async function deleteSupplier(id) {
     loadSupplier();
 
 }
+// =============================
+// CHECK LOGIN USER
+// =============================
 
+async function checkUser(){
+
+    const { data, error } = await supabaseClient.auth.getSession();
+
+
+    if(!data.session){
+
+        window.location.href="index.html";
+
+    }
+    else{
+
+        let user = document.getElementById("userEmail");
+
+        if(user){
+            user.innerHTML = data.session.user.email;
+        }
+
+    }
+
+}
+
+
+
+
+// RUN
+
+checkUser();
 // =============================
 // Logout
 // =============================
