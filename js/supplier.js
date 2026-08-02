@@ -1,58 +1,195 @@
-// ===============================
+// =============================
 // SPMDR - Supplier
-// ===============================
+// =============================
 
-// Papar apabila halaman dibuka
+let editId = null;
+
+// Apabila halaman dibuka
 document.addEventListener("DOMContentLoaded", () => {
     loadSupplier();
 });
 
-// Simpan Supplier
+// =============================
+// Simpan / Kemas Kini Supplier
+// =============================
 async function simpanSupplier() {
 
-    const nama = document.getElementById("nama").value;
-    const telefon = document.getElementById("telefon").value;
-    const email = document.getElementById("email").value;
-    const alamat = document.getElementById("alamat").value;
+    const supplier = {
+        kod_supplier: document.getElementById("kod_supplier").value.trim(),
+        nama_supplier: document.getElementById("nama_supplier").value.trim(),
+        nama_syarikat: document.getElementById("nama_syarikat").value.trim(),
+        no_telefon: document.getElementById("no_telefon").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        alamat: document.getElementById("alamat").value.trim()
+    };
 
-    if (!nama || !telefon) {
-        alert("Sila isi Nama Supplier dan No Telefon.");
+    if (supplier.nama_supplier === "") {
+        alert("Nama Supplier wajib diisi.");
         return;
     }
 
-    // Nanti akan disimpan ke Supabase
-    console.log({
-        nama,
-        telefon,
-        email,
-        alamat
-    });
+    let error;
 
-    alert("Supplier berjaya disimpan.");
+    if (editId === null) {
 
-    document.getElementById("nama").value = "";
-    document.getElementById("telefon").value = "";
-    document.getElementById("email").value = "";
-    document.getElementById("alamat").value = "";
+        ({ error } = await supabase
+            .from("supplier")
+            .insert([supplier]));
+
+    } else {
+
+        ({ error } = await supabase
+            .from("supplier")
+            .update(supplier)
+            .eq("id", editId));
+
+    }
+
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    alert(editId === null ? "Supplier berjaya disimpan." : "Supplier berjaya dikemaskini.");
+
+    document.getElementById("supplierForm").reset();
+
+    editId = null;
 
     loadSupplier();
 }
 
-// Papar Senarai Supplier
-function loadSupplier() {
+// =============================
+// Papar Supplier
+// =============================
+async function loadSupplier() {
+
+    const { data, error } = await supabase
+        .from("supplier")
+        .select("*")
+        .order("id", { ascending: false });
+
+    if (error) {
+        console.error(error);
+        return;
+    }
 
     const tbody = document.getElementById("senaraiSupplier");
 
-    tbody.innerHTML = `
+    tbody.innerHTML = "";
+
+    if (data.length === 0) {
+
+        tbody.innerHTML = `
         <tr>
-            <td colspan="5" class="text-center text-muted">
-                Tiada data supplier.
+            <td colspan="6" class="text-center">
+                Tiada rekod supplier.
             </td>
+        </tr>`;
+        return;
+    }
+
+    data.forEach(item => {
+
+        tbody.innerHTML += `
+        <tr>
+
+            <td>${item.kod_supplier ?? ""}</td>
+
+            <td>${item.nama_supplier}</td>
+
+            <td>${item.nama_syarikat ?? ""}</td>
+
+            <td>${item.no_telefon ?? ""}</td>
+
+            <td>${item.email ?? ""}</td>
+
+            <td>
+
+                <button
+                    class="btn btn-warning btn-sm"
+                    onclick="editSupplier(${item.id})">
+
+                    <i class="bi bi-pencil"></i>
+
+                </button>
+
+                <button
+                    class="btn btn-danger btn-sm"
+                    onclick="deleteSupplier(${item.id})">
+
+                    <i class="bi bi-trash"></i>
+
+                </button>
+
+            </td>
+
         </tr>
-    `;
+        `;
+    });
+
 }
 
+// =============================
+// Edit Supplier
+// =============================
+async function editSupplier(id) {
+
+    const { data, error } = await supabase
+        .from("supplier")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    editId = id;
+
+    document.getElementById("kod_supplier").value = data.kod_supplier ?? "";
+    document.getElementById("nama_supplier").value = data.nama_supplier ?? "";
+    document.getElementById("nama_syarikat").value = data.nama_syarikat ?? "";
+    document.getElementById("no_telefon").value = data.no_telefon ?? "";
+    document.getElementById("email").value = data.email ?? "";
+    document.getElementById("alamat").value = data.alamat ?? "";
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+// =============================
+// Padam Supplier
+// =============================
+async function deleteSupplier(id) {
+
+    if (!confirm("Padam supplier ini?")) return;
+
+    const { error } = await supabase
+        .from("supplier")
+        .delete()
+        .eq("id", id);
+
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    alert("Supplier berjaya dipadam.");
+
+    loadSupplier();
+
+}
+
+// =============================
 // Logout
+// =============================
 function logout() {
+
     window.location.href = "index.html";
+
 }
