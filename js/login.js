@@ -23,3 +23,23 @@ console.log(error);
     }
 
 });
+
+function togglePassword(){
+
+    const pass=document.getElementById("password");
+
+    const icon=document.getElementById("eye");
+
+    if(pass.type==="password"){
+
+        pass.type="text";
+        icon.className="bi bi-eye-slash";
+
+    }else{
+
+        pass.type="password";
+        icon.className="bi bi-eye";
+
+    }
+
+}
