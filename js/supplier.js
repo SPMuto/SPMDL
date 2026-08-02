@@ -32,13 +32,13 @@ async function simpanSupplier() {
 
     if (editId === null) {
 
-        ({ error } = await supabase
+        ({ error } = await supabaseClient
             .from("supplier")
             .insert([supplier]));
 
     } else {
 
-        ({ error } = await supabase
+        ({ error } = await supabaseClient
             .from("supplier")
             .update(supplier)
             .eq("id", editId));
@@ -64,7 +64,7 @@ async function simpanSupplier() {
 // =============================
 async function loadSupplier() {
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
         .from("supplier")
         .select("*")
         .order("id", { ascending: false });
@@ -135,7 +135,7 @@ async function loadSupplier() {
 // =============================
 async function editSupplier(id) {
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
         .from("supplier")
         .select("*")
         .eq("id", id)
@@ -169,7 +169,7 @@ async function deleteSupplier(id) {
 
     if (!confirm("Padam supplier ini?")) return;
 
-    const { error } = await supabase
+    const { error } = await supabaseClient
         .from("supplier")
         .delete()
         .eq("id", id);
