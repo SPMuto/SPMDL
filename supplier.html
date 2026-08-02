@@ -2,23 +2,23 @@
 <html lang="ms">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPMDR - Supplier</title>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<title>SPMDR - Supplier</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-
-<link href="css/style.css" rel="stylesheet">
-
+    <!-- CSS -->
+    <link href="css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -27,7 +27,6 @@
 <div class="row">
 
 <!-- SIDEBAR -->
-
 <div class="col-md-3 col-lg-2 sidebar">
 
     <div class="logo mb-4">
@@ -84,7 +83,7 @@
         Tetapan
     </a>
 
-    <hr class="text-secondary">
+    <hr>
 
     <button onclick="logout()" class="btn btn-danger w-100">
         <i class="bi bi-box-arrow-right"></i>
@@ -94,72 +93,94 @@
 </div>
 
 <!-- CONTENT -->
-
 <div class="col-md-9 col-lg-10 p-4">
 
-    <h2>🚚 Supplier</h2>
+<h2 class="mb-4">🚚 Supplier</h2>
 
-    <div class="card shadow p-4">
+<div class="card shadow p-4">
 
-        <div class="row mb-3">
+<form id="supplierForm">
 
-            <div class="col-md-4">
-                <label>Nama Supplier</label>
-                <input type="text" id="nama" class="form-control">
-            </div>
+<div class="row">
 
-            <div class="col-md-4">
-                <label>No Telefon</label>
-                <input type="text" id="telefon" class="form-control">
-            </div>
+<div class="col-md-3 mb-3">
+<label>Kod Supplier</label>
+<input type="text" id="kod_supplier" class="form-control">
+</div>
 
-            <div class="col-md-4">
-                <label>Email</label>
-                <input type="email" id="email" class="form-control">
-            </div>
+<div class="col-md-5 mb-3">
+<label>Nama Supplier</label>
+<input type="text" id="nama_supplier" class="form-control" required>
+</div>
 
-        </div>
+<div class="col-md-4 mb-3">
+<label>Nama Syarikat</label>
+<input type="text" id="nama_syarikat" class="form-control">
+</div>
 
-        <div class="mb-3">
+<div class="col-md-4 mb-3">
+<label>No Telefon</label>
+<input type="text" id="no_telefon" class="form-control">
+</div>
 
-            <label>Alamat</label>
+<div class="col-md-4 mb-3">
+<label>Email</label>
+<input type="email" id="email" class="form-control">
+</div>
 
-            <textarea id="alamat" class="form-control" rows="3"></textarea>
+<div class="col-md-4 mb-3">
+<label>Alamat</label>
+<textarea id="alamat" class="form-control"></textarea>
+</div>
 
-        </div>
+</div>
 
-        <button class="btn btn-primary" onclick="simpanSupplier()">
-            <i class="bi bi-save"></i>
-            Simpan Supplier
-        </button>
+<button type="button" onclick="simpanSupplier()" class="btn btn-primary">
+<i class="bi bi-save"></i>
+Simpan Supplier
+</button>
 
-        <hr>
+</form>
 
-        <table class="table table-bordered table-hover">
+</div>
 
-            <thead class="table-dark">
+<div class="card shadow mt-4">
 
-                <tr>
-                    <th>Nama</th>
-                    <th>Telefon</th>
-                    <th>Email</th>
-                    <th>Alamat</th>
-                    <th>Tindakan</th>
-                </tr>
+<div class="card-header">
+<h5 class="mb-0">Senarai Supplier</h5>
+</div>
 
-            </thead>
+<div class="card-body">
 
-            <tbody id="senaraiSupplier">
+<table class="table table-bordered table-hover">
 
-            </tbody>
+<thead class="table-dark">
 
-        </table>
+<tr>
+<th>Kod</th>
+<th>Nama Supplier</th>
+<th>Syarikat</th>
+<th>Telefon</th>
+<th>Email</th>
+<th>Tindakan</th>
+</tr>
 
-    </div>
+</thead>
+
+<tbody id="senaraiSupplier">
+
+</tbody>
+
+</table>
 
 </div>
 
 </div>
+
+</div>
+
+</div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
