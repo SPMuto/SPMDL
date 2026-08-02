@@ -527,3 +527,84 @@ body{
 
 
 }
+
+
+/* MOBILE TOP BAR */
+
+.mobile-topbar{
+
+display:none;
+
+}
+
+
+@media(max-width:768px){
+
+
+.mobile-topbar{
+
+display:flex;
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:70px;
+
+background:#212529;
+
+color:white;
+
+padding:10px 15px;
+
+justify-content:space-between;
+
+align-items:center;
+
+z-index:1000;
+
+}
+
+
+.mobile-topbar h5{
+
+font-weight:700;
+
+}
+
+
+.mobile-topbar small{
+
+font-size:11px;
+
+color:#bbb;
+
+}
+
+
+
+.content{
+
+padding-top:90px !important;
+
+padding-bottom:80px !important;
+
+}
+
+
+
+/* sembunyikan sidebar */
+
+.sidebar{
+
+display:none;
+
+}
+
+
+
+}
