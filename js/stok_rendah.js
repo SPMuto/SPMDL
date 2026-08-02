@@ -1,15 +1,9 @@
-// ==========================
-// PAPAR PRODUK STOK RENDAH
-// ==========================
-
-
 async function loadStokRendah(){
 
 
 const {data,error}=await supabaseClient
 .from("produk")
 .select("*")
-.lte("stok","stok_minimum")
 .order("nama_produk");
 
 
@@ -17,10 +11,36 @@ const {data,error}=await supabaseClient
 if(error){
 
 console.log(error);
-
 return;
 
 }
+
+
+
+let rendah = data.filter(p => 
+Number(p.stok) <= Number(p.stok_minimum)
+);
+
+
+
+let habis = data.filter(p =>
+Number(p.stok) === 0
+);
+
+
+
+// CARD
+
+document.getElementById("jumlahRendah").innerHTML =
+rendah.length;
+
+
+document.getElementById("stokHabis").innerHTML =
+habis.length;
+
+
+document.getElementById("jumlahProduk").innerHTML =
+data.length;
 
 
 
@@ -28,14 +48,14 @@ let html="";
 
 
 
-if(data.length==0){
+if(rendah.length==0){
 
 
 html=`
 
 <tr>
 
-<td colspan="7" class="text-center">
+<td colspan="9" class="text-center">
 
 Tiada produk stok rendah
 
@@ -50,15 +70,40 @@ Tiada produk stok rendah
 else{
 
 
-data.forEach(p=>{
+rendah.forEach(p=>{
 
 
-let gabungan =
-p.nama_produk +
-" " +
-(p.jenama ?? "") +
-" " +
-(p.jenis_motor ?? "");
+let status="";
+
+
+
+if(Number(p.stok)==0){
+
+status=`
+
+<span class="badge bg-danger">
+
+HABIS
+
+</span>
+
+`;
+
+}
+
+else{
+
+status=`
+
+<span class="badge bg-warning text-dark">
+
+RENDAH
+
+</span>
+
+`;
+
+}
 
 
 
@@ -72,44 +117,71 @@ ${p.kod_produk}
 </td>
 
 
+
 <td>
-${gabungan}
+
+${p.nama_produk}
+
 </td>
 
 
+
 <td>
+
 ${p.jenama ?? "-"}
+
 </td>
 
 
+
 <td>
+
 ${p.jenis_motor ?? "-"}
+
 </td>
+
 
 
 <td>
 
-<span class="badge bg-danger">
+${p.no_part ?? "-"}
+
+</td>
+
+
+
+<td>
 
 ${p.stok}
 
-</span>
-
 </td>
 
 
+
 <td>
+
 ${p.stok_minimum}
+
 </td>
+
 
 
 <td>
 
-<span class="badge bg-warning text-dark">
+${status}
 
-STOK RENDAH
+</td>
 
-</span>
+
+
+<td>
+
+<a href="produk.html?id=${p.id}" 
+class="btn btn-sm btn-primary">
+
+<i class="bi bi-pencil"></i>
+
+</a>
 
 </td>
 
@@ -135,9 +207,6 @@ document.getElementById("senaraiStokRendah").innerHTML=html;
 
 
 
-
-// LOGOUT
-
 async function logout(){
 
 await supabaseClient.auth.signOut();
@@ -145,7 +214,6 @@ await supabaseClient.auth.signOut();
 window.location.href="index.html";
 
 }
-
 
 
 
