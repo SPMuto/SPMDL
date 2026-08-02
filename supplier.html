@@ -10,6 +10,7 @@
 
 <title>SPMDR - Supplier</title>
 
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
@@ -35,18 +36,27 @@
 <div class="col-md-3 col-lg-2 sidebar">
 
 
+
 <div class="logo mb-4">
 
-<i class="bi bi-box-seam-fill"></i>
+<img src="img/logo.png" alt="SPMDR Logo">
+
+<div>
 
 <span>SPMDR</span>
+
+<small>
+Sistem Pengurusan Sparepart
+</small>
+
+</div>
 
 </div>
 
 
-<p class="text-secondary small mb-4">
-Sistem Pengurusan Sparepart
-</p>
+
+
+<hr class="text-secondary">
 
 
 
@@ -168,14 +178,47 @@ Logout
 
 
 
-<h2>
+<!-- TOPBAR -->
+
+
+<div class="topbar mb-4">
+
+
+<div>
+
+<h3>
 🚚 Supplier
-</h2>
+</h3>
+
+
+<p class="text-muted mb-0">
+
+Pengurusan Maklumat Supplier
+
+</p>
+
+
+</div>
+
+
+<div>
+
+<i class="bi bi-person-circle fs-3"></i>
+
+</div>
+
+
+</div>
 
 
 
 
-<div class="card shadow p-4 mt-3">
+
+
+<!-- FORM -->
+
+
+<div class="card shadow p-4">
 
 
 
@@ -185,7 +228,6 @@ Tambah Supplier
 
 
 <hr>
-
 
 
 
@@ -199,10 +241,7 @@ Tambah Supplier
 
 <div class="col-md-3 mb-3">
 
-<label>
-Kod Supplier
-</label>
-
+<label>Kod Supplier</label>
 
 <input 
 type="text"
@@ -214,13 +253,9 @@ class="form-control">
 
 
 
-
 <div class="col-md-5 mb-3">
 
-<label>
-Nama Supplier
-</label>
-
+<label>Nama Supplier</label>
 
 <input 
 type="text"
@@ -233,13 +268,9 @@ required>
 
 
 
-
 <div class="col-md-4 mb-3">
 
-<label>
-Nama Syarikat
-</label>
-
+<label>Nama Syarikat</label>
 
 <input 
 type="text"
@@ -251,13 +282,9 @@ class="form-control">
 
 
 
-
 <div class="col-md-4 mb-3">
 
-<label>
-No Telefon
-</label>
-
+<label>No Telefon</label>
 
 <input 
 type="text"
@@ -269,13 +296,9 @@ class="form-control">
 
 
 
-
 <div class="col-md-4 mb-3">
 
-<label>
-Email
-</label>
-
+<label>Email</label>
 
 <input 
 type="email"
@@ -287,19 +310,14 @@ class="form-control">
 
 
 
-
 <div class="col-md-4 mb-3">
 
-<label>
-Alamat
-</label>
-
+<label>Alamat</label>
 
 <textarea
 id="alamat"
-class="form-control">
-</textarea>
-
+class="form-control"
+rows="2"></textarea>
 
 </div>
 
@@ -313,13 +331,11 @@ class="form-control">
 <button 
 type="button"
 onclick="simpanSupplier()"
-class="btn btn-primary">
-
+class="btn btn-danger">
 
 <i class="bi bi-save"></i>
 
 Simpan Supplier
-
 
 </button>
 
@@ -336,38 +352,31 @@ Simpan Supplier
 
 
 
+<!-- TABLE -->
+
 
 <div class="card shadow mt-4">
 
 
+<div class="card-body">
 
-<div class="card-header">
 
-<h5 class="mb-0">
-
+<h5>
 Senarai Supplier
-
 </h5>
 
-</div>
 
-
-
-
-
-<div class="card-body">
+<hr>
 
 
 
 <div class="table-responsive">
 
 
-
 <table class="table table-bordered table-hover">
 
 
-
-<thead class="table-dark">
+<thead>
 
 
 <tr>
@@ -384,10 +393,12 @@ Senarai Supplier
 
 <th>Tindakan</th>
 
+
 </tr>
 
 
 </thead>
+
 
 
 
@@ -405,14 +416,10 @@ Senarai Supplier
 </div>
 
 
-
 </div>
 
 
-
 </div>
-
-
 
 
 
@@ -430,10 +437,7 @@ Senarai Supplier
 
 
 
-
-
-
-<!-- MOBILE TOP NAV -->
+<!-- MOBILE TOPBAR -->
 
 
 <div class="mobile-topbar">
@@ -443,12 +447,16 @@ Senarai Supplier
 
 
 <h5 class="mb-0">
+
 SPMDR
+
 </h5>
 
 
 <small>
+
 Sistem Pengurusan Sparepart
+
 </small>
 
 
@@ -461,7 +469,9 @@ Sistem Pengurusan Sparepart
 
 
 <span id="userEmail">
+
 User
+
 </span>
 
 
@@ -469,25 +479,22 @@ User
 
 
 
-<button onclick="location.reload()" 
+<button 
+onclick="location.reload()"
 class="btn btn-sm btn-light">
-
 
 <i class="bi bi-arrow-clockwise"></i>
 
-
 </button>
 
 
 
-
-<button onclick="logout()" 
+<button 
+onclick="logout()"
 class="btn btn-sm btn-danger">
-
 
 <i class="bi bi-box-arrow-right"></i>
 
-
 </button>
 
 
@@ -495,9 +502,7 @@ class="btn btn-sm btn-danger">
 </div>
 
 
-
 </div>
-
 
 
 
@@ -516,9 +521,7 @@ class="btn btn-sm btn-danger">
 
 <i class="bi bi-house"></i>
 
-<span>
-Home
-</span>
+<span>Home</span>
 
 </a>
 
@@ -529,12 +532,9 @@ Home
 
 <i class="bi bi-box"></i>
 
-<span>
-Produk
-</span>
+<span>Produk</span>
 
 </a>
-
 
 
 
@@ -543,12 +543,9 @@ Produk
 
 <i class="bi bi-truck"></i>
 
-<span>
-Supplier
-</span>
+<span>Supplier</span>
 
 </a>
-
 
 
 
@@ -557,12 +554,9 @@ Supplier
 
 <i class="bi bi-cart3"></i>
 
-<span>
-Jualan
-</span>
+<span>Jualan</span>
 
 </a>
-
 
 
 
@@ -571,9 +565,7 @@ Jualan
 
 <i class="bi bi-bar-chart"></i>
 
-<span>
-Laporan
-</span>
+<span>Laporan</span>
 
 </a>
 
@@ -588,12 +580,14 @@ Laporan
 
 
 
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="js/config.js"></script>
 
 <script src="js/supplier.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
 
 
 </body>
