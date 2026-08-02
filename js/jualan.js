@@ -1,4 +1,13 @@
+// ==========================
+// SPMDR - JUALAN POS
+// ==========================
+
+
+let semuaProduk = [];
+
 let cart = [];
+
+
 
 
 // ==========================
@@ -9,8 +18,13 @@ async function loadProduk(){
 
 
 const {data,error}=await supabaseClient
+
 .from("produk")
+
 .select("*")
+
+.eq("status","AKTIF")
+
 .order("nama_produk");
 
 
@@ -18,41 +32,149 @@ const {data,error}=await supabaseClient
 if(error){
 
 console.log(error);
+
 return;
 
 }
 
 
 
-let html = `
-<option value="">
-Pilih Produk
-</option>
+semuaProduk = data;
+
+
+}
+
+
+
+// ==========================
+// CARI PRODUK
+// ==========================
+
+function cariProduk(){
+
+
+let keyword = 
+
+document
+.getElementById("cariProduk")
+.value
+.toLowerCase();
+
+
+
+let hasil="";
+
+
+
+if(keyword.length < 2){
+
+document.getElementById("hasilProduk").innerHTML="";
+
+return;
+
+}
+
+
+
+
+semuaProduk
+
+.filter(p=>{
+
+
+let carian = `
+
+${p.nama_produk}
+
+${p.jenama ?? ""}
+
+${p.jenis_motor ?? ""}
+
+${p.no_part ?? ""}
+
+${p.barcode ?? ""}
+
+`
+
+.toLowerCase();
+
+
+
+return carian.includes(keyword);
+
+
+
+})
+
+.slice(0,10)
+
+.forEach(p=>{
+
+
+
+let nama =
+
+`${p.nama_produk}
+
+${p.jenama ?? ""}
+
+${p.jenis_motor ?? ""}`;
+
+
+
+hasil += `
+
+
+<button
+
+class="list-group-item list-group-item-action"
+
+onclick='pilihProduk(${JSON.stringify(p)})'>
+
+
+<b>${nama}</b>
+
+
+<br>
+
+
+Kod : ${p.kod_produk}
+
+
+<br>
+
+
+Barcode : ${p.barcode ?? "-"}
+
+
+<br>
+
+
+Harga : RM ${p.harga_jual}
+
+
+<br>
+
+
+Stok : ${p.stok}
+
+
+</button>
+
+
+
 `;
 
 
-
-data.forEach(p=>{
-
-
-html += `
-
-<option 
-value="${p.id}"
-data-harga="${p.harga_jual}"
-data-stok="${p.stok}">
-
-${p.nama_produk} (Stok ${p.stok})
-
-</option>
-
-`;
 
 });
 
 
 
-document.getElementById("produk_id").innerHTML = html;
+
+document
+.getElementById("hasilProduk")
+.innerHTML = hasil;
 
 
 }
@@ -61,8 +183,62 @@ document.getElementById("produk_id").innerHTML = html;
 
 
 
+
+
 // ==========================
-// TAMBAH CART
+// PILIH PRODUK
+// ==========================
+
+function pilihProduk(p){
+
+
+
+document
+.getElementById("produk_id")
+.value=p.id;
+
+
+
+
+document
+.getElementById("harga")
+.value=p.harga_jual;
+
+
+
+
+document
+.getElementById("cariProduk")
+.value =
+
+
+`${p.nama_produk} 
+${p.jenama ?? ""} 
+${p.jenis_motor ?? ""}`;
+
+
+
+document
+.getElementById("hasilProduk")
+.innerHTML="";
+
+
+
+document
+.getElementById("kuantiti")
+.focus();
+
+
+}
+
+
+
+
+
+
+
+// ==========================
+// TAMBAH ITEM
 // ==========================
 
 
@@ -70,57 +246,48 @@ function tambahItem(){
 
 
 
-let select =
-document.getElementById("produk_id");
-
-
-
 let id =
-select.value;
 
+document
+.getElementById("produk_id")
+.value;
 
-
-if(!id){
-
-alert("Pilih produk dahulu");
-
-return;
-
-}
 
 
 
 let nama =
-select.options[select.selectedIndex].text;
+
+document
+.getElementById("cariProduk")
+.value;
 
 
 
 let harga =
+
 Number(
-select.options[select.selectedIndex]
-.dataset.harga
-);
-
-
-
-let stok =
-Number(
-select.options[select.selectedIndex]
-.dataset.stok
+document
+.getElementById("harga")
+.value
 );
 
 
 
 let qty =
+
 Number(
-document.getElementById("kuantiti").value
+document
+.getElementById("kuantiti")
+.value
 );
 
 
 
-if(qty > stok){
 
-alert("Stok tidak mencukupi");
+
+if(!id){
+
+alert("Sila pilih produk");
 
 return;
 
@@ -128,20 +295,255 @@ return;
 
 
 
+
+
+if(qty<=0){
+
+alert("Kuantiti tidak sah");
+
+return;
+
+}
+
+
+
+
+
+
+let item = cart.find(
+
+x=>x.produk_id==id
+
+);
+
+
+
+
+
+if(item){
+
+
+
+item.kuantiti += qty;
+
+
+item.jumlah =
+
+item.kuantiti *
+
+item.harga;
+
+
+
+}else{
+
+
+
 cart.push({
+
 
 produk_id:id,
 
+
 nama:nama,
+
 
 kuantiti:qty,
 
+
 harga:harga,
+
 
 jumlah:qty*harga
 
+
 });
 
+
+
+}
+
+
+
+
+paparCart();
+
+
+
+
+
+// reset carian
+
+
+document
+.getElementById("cariProduk")
+.value="";
+
+document
+.getElementById("produk_id")
+.value="";
+
+document
+.getElementById("harga")
+.value="";
+
+
+
+document
+.getElementById("kuantiti")
+.value=1;
+
+
+
+}
+
+
+
+
+
+
+
+
+// ==========================
+// PAPAR CART
+// ==========================
+
+function paparCart(){
+
+
+
+let html="";
+
+
+let total=0;
+
+
+
+
+
+cart.forEach((i,index)=>{
+
+
+
+total += i.jumlah;
+
+
+
+
+
+html += `
+
+
+<tr>
+
+
+<td>
+
+${i.nama}
+
+</td>
+
+
+
+<td>
+
+
+<button
+
+class="btn btn-sm btn-danger"
+
+onclick="kurangQty(${index})">
+
+
+-
+
+</button>
+
+
+
+${i.kuantiti}
+
+
+
+
+<button
+
+class="btn btn-sm btn-success"
+
+onclick="tambahQty(${index})">
+
+
++
+
+</button>
+
+
+
+</td>
+
+
+
+
+<td>
+
+RM ${i.jumlah.toFixed(2)}
+
+</td>
+
+
+
+
+</tr>
+
+
+`;
+
+
+
+});
+
+
+
+
+
+document
+.getElementById("cart")
+.innerHTML=html;
+
+
+
+
+document
+.getElementById("jumlah")
+.innerHTML=
+total.toFixed(2);
+
+
+
+}
+
+
+
+
+
+
+
+
+// ==========================
+// PLUS MINUS CART
+// ==========================
+
+function tambahQty(index){
+
+
+cart[index].kuantiti++;
+
+
+cart[index].jumlah =
+
+cart[index].kuantiti *
+
+cart[index].harga;
 
 
 paparCart();
@@ -153,55 +555,42 @@ paparCart();
 
 
 
-// ==========================
-// PAPAR CART
-// ==========================
+function kurangQty(index){
 
 
-function paparCart(){
-
-
-let html="";
-
-let total=0;
+cart[index].kuantiti--;
 
 
 
-cart.forEach(i=>{
+if(cart[index].kuantiti<=0){
 
 
-total += i.jumlah;
-
-
-html += `
-
-<tr>
-
-<td>${i.nama}</td>
-
-<td>${i.kuantiti}</td>
-
-<td>RM ${i.harga}</td>
-
-<td>RM ${i.jumlah}</td>
-
-</tr>
-
-`;
-
-
-});
-
-
-
-document.getElementById("cart").innerHTML=html;
-
-
-document.getElementById("jumlah").innerHTML=total;
-
+cart.splice(index,1);
 
 
 }
+
+else{
+
+
+cart[index].jumlah =
+
+cart[index].kuantiti *
+
+cart[index].harga;
+
+
+}
+
+
+
+paparCart();
+
+
+}
+
+
+
 
 
 
@@ -218,7 +607,7 @@ async function simpanJualan(){
 
 if(cart.length==0){
 
-alert("Tiada barang");
+alert("Cart kosong");
 
 return;
 
@@ -226,34 +615,55 @@ return;
 
 
 
+
 let jumlah =
+
 cart.reduce(
+
 (a,b)=>a+b.jumlah,
+
 0
+
 );
 
 
 
+
+
 let no_resit =
+
 "RES"+Date.now();
 
 
 
 
-const {data:jualan,error}=await supabaseClient
+
+
+const {data:jualan,error}=
+
+await supabaseClient
+
 .from("jualan")
+
 .insert({
 
-no_resit,
+no_resit:no_resit,
 
-jumlah,
+jumlah:jumlah,
 
 jenis_bayaran:
-document.getElementById("jenis_bayaran").value
+
+document
+.getElementById("jenis_bayaran")
+.value
+
 
 })
+
 .select()
+
 .single();
+
 
 
 
@@ -261,6 +671,7 @@ document.getElementById("jenis_bayaran").value
 if(error){
 
 alert(error.message);
+
 return;
 
 }
@@ -270,26 +681,39 @@ return;
 
 
 
-// SIMPAN DETAIL + UPDATE STOK
+
+
+// DETAIL + UPDATE STOK
 
 
 for(let item of cart){
 
 
 
+
+
 await supabaseClient
+
 .from("jualan_detail")
+
 .insert({
+
 
 jualan_id:jualan.id,
 
+
 produk_id:item.produk_id,
+
 
 kuantiti:item.kuantiti,
 
+
 harga:item.harga,
 
+
 jumlah:item.jumlah
+
+
 
 });
 
@@ -297,10 +721,17 @@ jumlah:item.jumlah
 
 
 
-const {data:p}=await supabaseClient
+
+const {data:stokProduk}=
+
+await supabaseClient
+
 .from("produk")
+
 .select("stok")
+
 .eq("id",item.produk_id)
+
 .single();
 
 
@@ -308,12 +739,22 @@ const {data:p}=await supabaseClient
 
 
 await supabaseClient
+
 .from("produk")
+
 .update({
 
-stok:Number(p.stok)-item.kuantiti
+stok:
+
+Number(stokProduk.stok)
+
+-
+
+item.kuantiti
+
 
 })
+
 .eq("id",item.produk_id);
 
 
@@ -322,11 +763,21 @@ stok:Number(p.stok)-item.kuantiti
 
 
 
+
+
+
 alert(
-"Jualan berjaya. Resit: "+no_resit
+
+"Jualan berjaya"
+
 );
 
-window.location.href =
+
+
+
+
+window.location.href=
+
 "resit.html?id="+jualan.id;
 
 
@@ -338,18 +789,116 @@ window.location.href =
 
 
 
+
+
+// ==========================
+// BARCODE ENTER
+// ==========================
+
+
+document
+.getElementById("cariProduk")
+.addEventListener(
+
+"keypress",
+
+async function(e){
+
+
+
+if(e.key==="Enter"){
+
+
+
+let code=this.value.trim();
+
+
+
+
+const {data}=
+
+await supabaseClient
+
+.from("produk")
+
+.select("*")
+
+.eq("barcode",code)
+
+.single();
+
+
+
+
+
+if(data){
+
+
+pilihProduk(data);
+
+
+}
+
+else{
+
+
+cariProduk();
+
+
+}
+
+
+
+}
+
+
+
+});
+
+
+
+
+
+
+
+
+// ==========================
+// LIVE SEARCH
+// ==========================
+
+
+document
+.getElementById("cariProduk")
+.addEventListener(
+
+"keyup",
+
+cariProduk
+
+);
+
+
+
+
+
+
+
+
 // ==========================
 // LOGOUT
 // ==========================
 
-
 async function logout(){
+
 
 await supabaseClient.auth.signOut();
 
+
 window.location.href="index.html";
 
+
 }
+
 
 
 
