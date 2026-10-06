@@ -1,0 +1,6184 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Sparepart POS</title>
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+
+/* =========================================================
+   WARNA SISTEM
+========================================================= */
+
+:root {
+    --primary: #0f766e;
+}
+
+/* =========================================================
+   BAHAGIAN 2
+   LAYOUT UTAMA POS
+========================================================= */
+
+.pos-main {
+    display: grid;
+    grid-template-columns: minmax(340px, 38%) 1fr;
+    gap: 14px;
+
+    width: 100%;
+    height: calc(100vh - 70px);
+
+    padding: 14px;
+}
+
+
+/* =========================================================
+   PANEL KIRI - TRANSAKSI
+========================================================= */
+
+.cart-panel {
+    background: #ffffff;
+    border-radius: 14px;
+
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+    min-height: 0;
+
+    overflow: hidden;
+
+    border: 1px solid #e2e8f0;
+
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.04),
+        0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+
+/* =========================================================
+   HEADER TRANSAKSI
+========================================================= */
+
+.cart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    padding: 16px 18px;
+
+    border-bottom: 1px solid #e2e8f0;
+
+    background: #ffffff;
+}
+
+
+.cart-header-left {
+    min-width: 0;
+}
+
+
+.cart-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+
+.cart-subtitle {
+    margin-top: 3px;
+
+    font-size: 12px;
+    color: #64748b;
+}
+
+
+.cart-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 48px;
+    height: 36px;
+
+    padding: 0 12px;
+
+    border-radius: 9px;
+
+    background: #0f766e;
+    color: #ffffff;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   CUSTOMER
+========================================================= */
+
+.customer-section {
+    padding: 14px 18px 10px 18px;
+}
+
+
+.field-label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    color: #475569;
+
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+
+.customer-row {
+    display: grid;
+
+    grid-template-columns: 1fr 46px;
+
+    gap: 8px;
+}
+
+
+.customer-select {
+    width: 100%;
+    height: 46px;
+
+    padding: 0 12px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: #334155;
+
+    font-size: 14px;
+
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+
+.customer-select:focus {
+    border-color: #14b8a6;
+
+    box-shadow:
+        0 0 0 3px rgba(20, 184, 166, 0.12);
+}
+
+
+.add-customer-btn {
+    width: 46px;
+    height: 46px;
+
+    border: 0;
+    border-radius: 9px;
+
+    background: #e2e8f0;
+    color: #334155;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s,
+        transform 0.1s;
+}
+
+
+.add-customer-btn:hover {
+    background: #cbd5e1;
+}
+
+
+.add-customer-btn:active {
+    transform: scale(0.96);
+}
+
+
+/* =========================================================
+   BARCODE
+========================================================= */
+
+.barcode-section {
+    padding: 4px 18px 14px 18px;
+}
+
+
+.barcode-box {
+    position: relative;
+}
+
+
+.barcode-input {
+    width: 100%;
+    height: 48px;
+
+    padding:
+        0
+        45px
+        0
+        14px;
+
+    border: 2px solid #5eead4;
+    border-radius: 9px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    font-size: 14px;
+    color: #0f172a;
+
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+
+.barcode-input::placeholder {
+    color: #94a3b8;
+}
+
+
+.barcode-input:focus {
+    border-color: #0d9488;
+
+    box-shadow:
+        0 0 0 3px rgba(13, 148, 136, 0.12);
+}
+
+
+.barcode-icon {
+    position: absolute;
+
+    top: 50%;
+    right: 14px;
+
+    transform: translateY(-50%);
+
+    color: #64748b;
+
+    pointer-events: none;
+
+    font-size: 19px;
+}
+
+
+/* =========================================================
+   HEADER SENARAI CART
+========================================================= */
+
+.cart-list-header {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        74px
+        92px
+        84px;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding: 10px 18px;
+
+    background: #f8fafc;
+
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+
+    color: #64748b;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+}
+
+
+.cart-list-header div:nth-child(2),
+.cart-list-header div:nth-child(3),
+.cart-list-header div:nth-child(4) {
+    text-align: center;
+}
+
+
+/* =========================================================
+   CART ITEMS
+========================================================= */
+
+.cart-items {
+    flex: 1;
+
+    min-height: 160px;
+
+    overflow-y: auto;
+
+    overscroll-behavior: contain;
+
+    background: #ffffff;
+}
+
+
+/* SCROLLBAR */
+
+.cart-items::-webkit-scrollbar {
+    width: 6px;
+}
+
+
+.cart-items::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+
+.cart-items::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 100px;
+}
+
+
+/* =========================================================
+   EMPTY CART
+========================================================= */
+
+.empty-cart {
+    min-height: 210px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 25px;
+
+    text-align: center;
+
+    color: #94a3b8;
+}
+
+
+.empty-cart-icon {
+    width: 56px;
+    height: 56px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 12px;
+
+    border-radius: 50%;
+
+    background: #f1f5f9;
+
+    font-size: 25px;
+}
+
+
+.empty-cart-title {
+    font-size: 17px;
+    font-weight: 600;
+
+    color: #64748b;
+}
+
+
+.empty-cart-text {
+    margin-top: 5px;
+
+    max-width: 230px;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   ITEM DALAM CART
+   Digunakan kemudian oleh JavaScript Bahagian 6
+========================================================= */
+
+.cart-item {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        74px
+        92px
+        84px;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding: 12px 18px;
+
+    border-bottom: 1px solid #f1f5f9;
+}
+
+
+.cart-item:hover {
+    background: #f8fafc;
+}
+
+
+.cart-product {
+    min-width: 0;
+}
+
+
+.cart-product-name {
+    font-size: 13px;
+    font-weight: 700;
+
+    color: #1e293b;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.cart-product-code {
+    margin-top: 3px;
+
+    font-size: 10px;
+
+    color: #94a3b8;
+}
+
+
+.cart-price {
+    text-align: center;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    color: #475569;
+}
+
+
+/* =========================================================
+   QUANTITY CONTROL
+========================================================= */
+
+.qty-control {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 3px;
+}
+
+
+.qty-btn {
+    width: 28px;
+    height: 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+
+    background: #ffffff;
+
+    color: #334155;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    user-select: none;
+}
+
+
+.qty-btn:active {
+    background: #e2e8f0;
+}
+
+
+.qty-value {
+    min-width: 26px;
+
+    text-align: center;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    color: #0f172a;
+}
+
+
+.cart-item-total {
+    text-align: right;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    color: #0f766e;
+}
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+.cart-summary {
+    background: #f8fafc;
+
+    border-top: 1px solid #e2e8f0;
+
+    padding:
+        12px
+        18px
+        14px
+        18px;
+}
+
+
+.summary-row {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    min-height: 29px;
+
+    font-size: 13px;
+
+    color: #475569;
+}
+
+
+.summary-row span:last-child {
+    text-align: right;
+
+    font-weight: 600;
+
+    color: #334155;
+}
+
+
+/* DISKAUN */
+
+.discount-row {
+    cursor: pointer;
+}
+
+
+.discount-value {
+    color: #e11d48 !important;
+}
+
+
+/* GARIS SEBELUM TOTAL */
+
+.summary-divider {
+    height: 1px;
+
+    margin: 8px 0;
+
+    background: #e2e8f0;
+}
+
+
+/* TOTAL */
+
+.total-row {
+    min-height: 42px;
+}
+
+
+.total-label {
+    font-size: 15px;
+    font-weight: 800;
+
+    color: #0f172a;
+}
+
+
+.total-amount {
+    font-size: 22px !important;
+    font-weight: 800 !important;
+
+    color: #0f766e !important;
+}
+
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
+.cart-actions {
+    display: grid;
+
+    grid-template-columns: 0.8fr 1.2fr;
+
+    gap: 10px;
+
+    padding:
+        0
+        18px
+        18px
+        18px;
+
+    background: #f8fafc;
+}
+
+
+.pos-btn {
+    min-height: 52px;
+
+    border: 0;
+    border-radius: 10px;
+
+    padding: 0 15px;
+
+    font-size: 13px;
+    font-weight: 800;
+
+    letter-spacing: 0.02em;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.1s,
+        opacity 0.2s,
+        box-shadow 0.2s;
+
+    touch-action: manipulation;
+}
+
+
+.pos-btn:active {
+    transform: scale(0.98);
+}
+
+
+/* BATAL */
+
+.cancel-btn {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+
+.cancel-btn:hover {
+    background: #fecaca;
+}
+
+
+/* BAYAR */
+
+.payment-btn {
+    background: #10b981;
+    color: #ffffff;
+
+    box-shadow:
+        0 5px 15px rgba(16, 185, 129, 0.18);
+}
+
+
+.payment-btn:hover {
+    background: #059669;
+}
+
+
+.payment-btn:disabled {
+    opacity: 0.45;
+
+    cursor: not-allowed;
+
+    box-shadow: none;
+}
+
+
+  /* =========================================================
+   BAHAGIAN 3
+   PANEL KANAN - PRODUK
+========================================================= */
+
+.product-panel {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+    min-height: 0;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.04),
+        0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+
+/* =========================================================
+   HEADER PRODUK
+========================================================= */
+
+.product-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 15px 18px;
+
+    border-bottom: 1px solid #e2e8f0;
+}
+
+
+.product-header-left {
+    min-width: 0;
+}
+
+
+.product-title {
+    font-size: 18px;
+    font-weight: 800;
+
+    color: #0f172a;
+}
+
+
+.product-subtitle {
+    margin-top: 3px;
+
+    font-size: 12px;
+
+    color: #64748b;
+}
+
+
+/* =========================================================
+   JUMLAH PRODUK
+========================================================= */
+
+.product-count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 72px;
+    height: 36px;
+
+    padding: 0 12px;
+
+    border-radius: 9px;
+
+    background: #ecfdf5;
+
+    color: #047857;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   CATEGORY WRAPPER
+========================================================= */
+
+.category-wrapper {
+    padding:
+        12px
+        18px
+        8px
+        18px;
+
+    background: #ffffff;
+}
+
+
+/* =========================================================
+   CATEGORY SCROLL
+========================================================= */
+
+.category-list {
+    display: flex;
+
+    gap: 8px;
+
+    width: 100%;
+
+    overflow-x: auto;
+
+    padding-bottom: 5px;
+
+    scrollbar-width: thin;
+
+    -webkit-overflow-scrolling: touch;
+}
+
+
+.category-list::-webkit-scrollbar {
+    height: 4px;
+}
+
+
+.category-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+
+.category-list::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+
+    border-radius: 50px;
+}
+
+
+/* =========================================================
+   CATEGORY BUTTON
+========================================================= */
+
+.category-btn {
+    flex: 0 0 auto;
+
+    min-height: 42px;
+
+    padding: 0 17px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 9px;
+
+    background: #f8fafc;
+
+    color: #475569;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    touch-action: manipulation;
+
+    transition:
+        color 0.2s,
+        background 0.2s,
+        border-color 0.2s,
+        transform 0.1s;
+}
+
+
+.category-btn:hover {
+    border-color: #99f6e4;
+
+    background: #f0fdfa;
+
+    color: #0f766e;
+}
+
+
+.category-btn:active {
+    transform: scale(0.97);
+}
+
+
+/* CATEGORY ACTIVE */
+
+.category-btn.active {
+    background: #0f766e;
+
+    border-color: #0f766e;
+
+    color: #ffffff;
+
+    box-shadow:
+        0 4px 12px rgba(15, 118, 110, 0.15);
+}
+
+
+/* =========================================================
+   SEARCH PRODUK
+========================================================= */
+
+.product-search-section {
+    padding:
+        6px
+        18px
+        13px
+        18px;
+}
+
+
+.product-search-box {
+    position: relative;
+}
+
+
+.product-search-input {
+    width: 100%;
+    height: 48px;
+
+    padding:
+        0
+        48px
+        0
+        15px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 10px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: #0f172a;
+
+    font-size: 14px;
+
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+
+.product-search-input::placeholder {
+    color: #94a3b8;
+}
+
+
+.product-search-input:focus {
+    border-color: #14b8a6;
+
+    box-shadow:
+        0 0 0 3px rgba(20, 184, 166, 0.12);
+}
+
+
+.product-search-icon {
+    position: absolute;
+
+    top: 50%;
+    right: 16px;
+
+    transform: translateY(-50%);
+
+    font-size: 18px;
+
+    color: #64748b;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   PRODUCT BODY
+========================================================= */
+
+.product-body {
+    flex: 1;
+
+    min-height: 0;
+
+    overflow-y: auto;
+
+    padding:
+        4px
+        18px
+        18px
+        18px;
+
+    overscroll-behavior: contain;
+}
+
+
+.product-body::-webkit-scrollbar {
+    width: 7px;
+}
+
+
+.product-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+
+.product-body::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+
+    border-radius: 100px;
+}
+
+
+/* =========================================================
+   PRODUCT GRID
+========================================================= */
+
+.product-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 12px;
+}
+
+
+/* =========================================================
+   PRODUCT CARD
+========================================================= */
+
+.product-card {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    cursor: pointer;
+
+    touch-action: manipulation;
+
+    transition:
+        transform 0.15s ease,
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+
+.product-card:hover {
+    transform: translateY(-2px);
+
+    border-color: #99f6e4;
+
+    box-shadow:
+        0 7px 20px rgba(15, 23, 42, 0.09);
+}
+
+
+.product-card:active {
+    transform: scale(0.98);
+}
+
+
+/* =========================================================
+   PRODUCT IMAGE
+========================================================= */
+
+.product-image {
+    position: relative;
+
+    width: 100%;
+
+    aspect-ratio: 1.35 / 1;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f8fafc,
+            #e2e8f0
+        );
+}
+
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+}
+
+
+/* =========================================================
+   PLACEHOLDER BILA TIADA GAMBAR
+========================================================= */
+
+.product-placeholder {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+
+    width: 100%;
+    height: 100%;
+
+    color: #64748b;
+}
+
+
+.product-placeholder-icon {
+    font-size: 30px;
+}
+
+
+.product-placeholder-text {
+    font-size: 9px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    color: #94a3b8;
+}
+
+
+/* =========================================================
+   STOCK BADGE ATAS GAMBAR
+========================================================= */
+
+.stock-badge {
+    position: absolute;
+
+    top: 8px;
+    right: 8px;
+
+    z-index: 2;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    min-height: 24px;
+
+    padding: 0 7px;
+
+    border-radius: 6px;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    backdrop-filter: blur(5px);
+}
+
+
+/* STOK OK */
+
+.stock-ok {
+    background: rgba(220, 252, 231, 0.94);
+
+    color: #15803d;
+}
+
+
+/* STOK RENDAH */
+
+.stock-low {
+    background: rgba(254, 243, 199, 0.95);
+
+    color: #b45309;
+}
+
+
+/* HABIS */
+
+.stock-out {
+    background: rgba(254, 226, 226, 0.95);
+
+    color: #dc2626;
+}
+
+
+/* =========================================================
+   PRODUCT INFO
+========================================================= */
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+
+    flex: 1;
+
+    padding: 10px;
+}
+
+
+.product-category-name {
+    margin-bottom: 4px;
+
+    font-size: 9px;
+    font-weight: 800;
+
+    color: #0d9488;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.04em;
+}
+
+
+.product-name {
+    min-height: 34px;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    line-height: 1.4;
+
+    color: #1e293b;
+
+    display: -webkit-box;
+
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+}
+
+
+.product-code {
+    margin-top: 4px;
+
+    font-size: 9px;
+
+    color: #94a3b8;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   PRICE + STOCK
+========================================================= */
+
+.product-bottom {
+    display: flex;
+
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 5px;
+
+    margin-top: auto;
+
+    padding-top: 9px;
+}
+
+
+.product-price {
+    font-size: 15px;
+    font-weight: 800;
+
+    color: #0f766e;
+}
+
+
+.product-stock {
+    font-size: 9px;
+    font-weight: 600;
+
+    color: #64748b;
+
+    text-align: right;
+}
+
+
+/* =========================================================
+   OUT OF STOCK CARD
+========================================================= */
+
+.product-card.out-of-stock {
+    cursor: not-allowed;
+
+    opacity: 0.68;
+}
+
+
+.product-card.out-of-stock:hover {
+    transform: none;
+
+    border-color: #e2e8f0;
+
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   ADD INDICATOR
+========================================================= */
+
+.product-add {
+    position: absolute;
+
+    left: 50%;
+    bottom: 8px;
+
+    transform:
+        translateX(-50%)
+        translateY(10px);
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 95px;
+    height: 30px;
+
+    padding: 0 10px;
+
+    border-radius: 8px;
+
+    background: #0f766e;
+
+    color: #ffffff;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.2s,
+        transform 0.2s;
+}
+
+
+.product-card:hover .product-add {
+    opacity: 1;
+
+    transform:
+        translateX(-50%)
+        translateY(0);
+}
+
+
+/* =========================================================
+   EMPTY SEARCH
+========================================================= */
+
+.no-product-found {
+    display: none;
+
+    min-height: 260px;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 30px;
+
+    color: #94a3b8;
+}
+
+
+.no-product-found.show {
+    display: flex;
+}
+
+
+.no-product-icon {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 60px;
+    height: 60px;
+
+    margin-bottom: 12px;
+
+    border-radius: 50%;
+
+    background: #f1f5f9;
+
+    font-size: 25px;
+}
+
+
+.no-product-title {
+    font-size: 16px;
+    font-weight: 700;
+
+    color: #64748b;
+}
+
+
+.no-product-text {
+    margin-top: 5px;
+
+    font-size: 12px;
+
+    color: #94a3b8;
+}
+
+    <!-- ===================================================
+         PANEL KANAN
+         SENARAI PRODUK / SPAREPART
+    ==================================================== -->
+
+/* =========================================================
+   BAHAGIAN 4
+   RESPONSIVE TABLET
+========================================================= */
+
+
+/* =========================================================
+   DESKTOP KECIL / TABLET LANDSCAPE
+   Contoh:
+   1024 x 768
+   1180 x 820
+   1280 x 800
+========================================================= */
+
+@media (max-width: 1280px) {
+
+    .pos-main {
+        grid-template-columns:
+            minmax(330px, 38%)
+            minmax(0, 62%);
+
+        gap: 10px;
+
+        padding: 10px;
+
+        height: calc(100vh - 64px);
+    }
+
+
+    /* -----------------------------------------
+       PANEL KIRI
+    ----------------------------------------- */
+
+    .cart-header {
+        padding: 13px 14px;
+    }
+
+
+    .cart-title {
+        font-size: 17px;
+    }
+
+
+    .customer-section {
+        padding:
+            12px
+            14px
+            9px
+            14px;
+    }
+
+
+    .barcode-section {
+        padding:
+            4px
+            14px
+            12px
+            14px;
+    }
+
+
+    .cart-list-header {
+        padding:
+            10px
+            12px;
+
+        grid-template-columns:
+            minmax(0, 1fr)
+            68px
+            88px
+            76px;
+    }
+
+
+    .cart-item {
+        padding:
+            11px
+            12px;
+
+        grid-template-columns:
+            minmax(0, 1fr)
+            68px
+            88px
+            76px;
+    }
+
+
+    .cart-summary {
+        padding:
+            10px
+            14px
+            12px
+            14px;
+    }
+
+
+    .cart-actions {
+        padding:
+            0
+            14px
+            14px
+            14px;
+    }
+
+
+    /* -----------------------------------------
+       PANEL PRODUK
+    ----------------------------------------- */
+
+    .product-header {
+        padding:
+            13px
+            14px;
+    }
+
+
+    .category-wrapper {
+        padding:
+            10px
+            14px
+            7px
+            14px;
+    }
+
+
+    .product-search-section {
+        padding:
+            5px
+            14px
+            11px
+            14px;
+    }
+
+
+    .product-body {
+        padding:
+            3px
+            14px
+            14px
+            14px;
+    }
+
+
+    .product-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+
+        gap: 10px;
+    }
+
+
+    .product-name {
+        font-size: 11px;
+    }
+
+
+    .product-price {
+        font-size: 14px;
+    }
+
+}
+
+
+
+/* =========================================================
+   TABLET LANDSCAPE STANDARD
+   769px - 1100px
+========================================================= */
+
+@media
+    (min-width: 769px)
+    and (max-width: 1100px)
+    and (orientation: landscape) {
+
+    .pos-main {
+        grid-template-columns:
+            minmax(315px, 40%)
+            minmax(0, 60%);
+    }
+
+
+    /* -----------------------------------------
+       TROLI
+    ----------------------------------------- */
+
+    .cart-list-header {
+        grid-template-columns:
+            minmax(0, 1fr)
+            61px
+            85px
+            70px;
+
+        font-size: 9px;
+    }
+
+
+    .cart-item {
+        grid-template-columns:
+            minmax(0, 1fr)
+            61px
+            85px
+            70px;
+    }
+
+
+    .cart-product-name {
+        font-size: 12px;
+    }
+
+
+    .cart-price,
+    .cart-item-total {
+        font-size: 11px;
+    }
+
+
+    .qty-btn {
+        width: 27px;
+        height: 32px;
+    }
+
+
+    /* -----------------------------------------
+       PRODUCT GRID
+    ----------------------------------------- */
+
+    .product-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
+
+    .product-image {
+        aspect-ratio: 1.4 / 1;
+    }
+
+
+    .category-btn {
+        min-height: 44px;
+
+        padding:
+            0
+            14px;
+    }
+
+
+    .product-search-input {
+        height: 46px;
+    }
+
+}
+
+
+
+/* =========================================================
+   TABLET PORTRAIT
+   Contoh:
+   768 x 1024
+   820 x 1180
+
+   Dalam portrait:
+   - Produk di atas
+   - Troli di bawah
+   - Tidak paksa dua panel sempit
+========================================================= */
+
+@media
+    (max-width: 900px)
+    and (orientation: portrait) {
+
+    body {
+        overflow-y: auto;
+    }
+
+
+    .pos-main {
+        display: flex;
+
+        flex-direction: column-reverse;
+
+        gap: 12px;
+
+        height: auto;
+
+        min-height: calc(100vh - 64px);
+
+        padding: 10px;
+    }
+
+
+    /* =====================================================
+       PRODUK DI ATAS
+    ===================================================== */
+
+    .product-panel {
+        width: 100%;
+
+        min-height: 590px;
+
+        overflow: visible;
+    }
+
+
+    .product-header {
+        padding:
+            14px
+            15px;
+    }
+
+
+    .product-title {
+        font-size: 18px;
+    }
+
+
+    .product-count {
+        height: 38px;
+    }
+
+
+    /* -----------------------------------------
+       CATEGORY
+    ----------------------------------------- */
+
+    .category-wrapper {
+        padding:
+            10px
+            14px
+            7px
+            14px;
+    }
+
+
+    .category-list {
+        gap: 7px;
+    }
+
+
+    .category-btn {
+        min-height: 46px;
+
+        padding:
+            0
+            17px;
+
+        font-size: 12px;
+    }
+
+
+    /* -----------------------------------------
+       SEARCH
+    ----------------------------------------- */
+
+    .product-search-section {
+        padding:
+            5px
+            14px
+            12px
+            14px;
+    }
+
+
+    .product-search-input {
+        height: 50px;
+
+        font-size: 15px;
+    }
+
+
+    /* -----------------------------------------
+       PRODUCT GRID
+    ----------------------------------------- */
+
+    .product-body {
+        max-height: none;
+
+        overflow: visible;
+
+        padding:
+            3px
+            14px
+            18px
+            14px;
+    }
+
+
+    .product-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+
+        gap: 11px;
+    }
+
+
+    .product-card {
+        min-height: 205px;
+    }
+
+
+    .product-image {
+        aspect-ratio: 1.45 / 1;
+    }
+
+
+    .product-info {
+        padding: 10px;
+    }
+
+
+    .product-name {
+        min-height: 35px;
+
+        font-size: 12px;
+    }
+
+
+    .product-price {
+        font-size: 15px;
+    }
+
+
+    /* Pada touch screen tidak bergantung pada hover */
+
+    .product-add {
+        display: none;
+    }
+
+
+    /* =====================================================
+       TROLI DI BAWAH
+    ===================================================== */
+
+    .cart-panel {
+        width: 100%;
+
+        min-height: 520px;
+
+        overflow: visible;
+    }
+
+
+    .cart-items {
+        max-height: 320px;
+
+        min-height: 200px;
+    }
+
+
+    .cart-list-header {
+        grid-template-columns:
+            minmax(0, 1fr)
+            90px
+            115px
+            95px;
+    }
+
+
+    .cart-item {
+        grid-template-columns:
+            minmax(0, 1fr)
+            90px
+            115px
+            95px;
+    }
+
+
+    .qty-btn {
+        width: 34px;
+        height: 38px;
+
+        font-size: 17px;
+    }
+
+
+    .qty-value {
+        min-width: 30px;
+
+        font-size: 14px;
+    }
+
+
+    .pos-btn {
+        min-height: 56px;
+
+        font-size: 14px;
+    }
+
+}
+
+
+
+/* =========================================================
+   TABLET PORTRAIT LEBAR KECIL
+   601px - 760px
+
+   Grid produk bertukar kepada 2 kolum
+========================================================= */
+
+@media
+    (min-width: 601px)
+    and (max-width: 760px) {
+
+    .product-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+
+    .product-card {
+        min-height: 220px;
+    }
+
+
+    .product-image {
+        aspect-ratio: 1.7 / 1;
+    }
+
+
+    .product-name {
+        font-size: 13px;
+    }
+
+
+    .product-price {
+        font-size: 16px;
+    }
+
+}
+
+
+
+/* =========================================================
+   TABLET / PHONE KECIL
+   <= 600px
+
+   Masih disediakan supaya layout tidak rosak
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .pos-main {
+        padding: 7px;
+
+        gap: 8px;
+    }
+
+
+    .product-panel,
+    .cart-panel {
+        border-radius: 10px;
+    }
+
+
+    /* -----------------------------------------
+       PRODUCT HEADER
+    ----------------------------------------- */
+
+    .product-header {
+        padding:
+            12px
+            11px;
+    }
+
+
+    .product-title {
+        font-size: 16px;
+    }
+
+
+    .product-subtitle {
+        font-size: 10px;
+    }
+
+
+    .product-count {
+        min-width: 65px;
+
+        height: 34px;
+
+        padding:
+            0
+            8px;
+
+        font-size: 10px;
+    }
+
+
+    /* -----------------------------------------
+       CATEGORY
+    ----------------------------------------- */
+
+    .category-wrapper {
+        padding:
+            9px
+            10px
+            6px
+            10px;
+    }
+
+
+    .category-btn {
+        min-height: 44px;
+
+        padding:
+            0
+            15px;
+    }
+
+
+    /* -----------------------------------------
+       SEARCH
+    ----------------------------------------- */
+
+    .product-search-section {
+        padding:
+            4px
+            10px
+            10px
+            10px;
+    }
+
+
+    .product-search-input {
+        height: 48px;
+    }
+
+
+    /* -----------------------------------------
+       PRODUCT GRID
+    ----------------------------------------- */
+
+    .product-body {
+        padding:
+            2px
+            10px
+            13px
+            10px;
+    }
+
+
+    .product-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 8px;
+    }
+
+
+    .product-card {
+        min-height: 195px;
+    }
+
+
+    .product-image {
+        aspect-ratio: 1.45 / 1;
+    }
+
+
+    .product-info {
+        padding: 8px;
+    }
+
+
+    .product-name {
+        font-size: 11px;
+    }
+
+
+    .product-price {
+        font-size: 14px;
+    }
+
+
+    /* -----------------------------------------
+       CART HEADER
+    ----------------------------------------- */
+
+    .cart-header {
+        padding:
+            12px
+            11px;
+    }
+
+
+    .cart-title {
+        font-size: 16px;
+    }
+
+
+    .cart-subtitle {
+        font-size: 10px;
+    }
+
+
+    /* -----------------------------------------
+       CUSTOMER
+    ----------------------------------------- */
+
+    .customer-section {
+        padding:
+            11px
+            11px
+            8px
+            11px;
+    }
+
+
+    .customer-select,
+    .add-customer-btn {
+        height: 48px;
+    }
+
+
+    .barcode-section {
+        padding:
+            3px
+            11px
+            11px
+            11px;
+    }
+
+
+    .barcode-input {
+        height: 48px;
+    }
+
+
+    /* =====================================================
+       MOBILE CART
+
+       Sembunyikan header kolum kerana ruang sempit.
+       Setiap item akan lebih mudah dibaca.
+    ===================================================== */
+
+    .cart-list-header {
+        display: none;
+    }
+
+
+    .cart-item {
+        position: relative;
+
+        display: grid;
+
+        grid-template-columns:
+            minmax(0, 1fr)
+            auto;
+
+        grid-template-areas:
+            "product total"
+            "price qty";
+
+        gap:
+            8px
+            10px;
+
+        padding:
+            13px
+            11px;
+    }
+
+
+    .cart-product {
+        grid-area: product;
+    }
+
+
+    .cart-price {
+        grid-area: price;
+
+        text-align: left;
+    }
+
+
+    .qty-control {
+        grid-area: qty;
+
+        justify-content: flex-end;
+    }
+
+
+    .cart-item-total {
+        grid-area: total;
+
+        align-self: start;
+
+        font-size: 13px;
+    }
+
+
+    .qty-btn {
+        width: 36px;
+        height: 38px;
+    }
+
+
+    .cart-summary {
+        padding:
+            10px
+            11px
+            12px
+            11px;
+    }
+
+
+    .cart-actions {
+        padding:
+            0
+            11px
+            12px
+            11px;
+    }
+
+
+    .total-amount {
+        font-size: 20px !important;
+    }
+
+}
+
+
+
+/* =========================================================
+   TABLET LANDSCAPE DENGAN KETINGGIAN RENDAH
+
+   Contoh tablet landscape yang mempunyai browser toolbar
+   sehingga ruang menegak jadi lebih pendek.
+========================================================= */
+
+@media
+    (orientation: landscape)
+    and (max-height: 700px) {
+
+    .pos-main {
+        height: calc(100vh - 58px);
+
+        padding:
+            7px
+            9px;
+    }
+
+
+    .cart-header {
+        padding:
+            9px
+            12px;
+    }
+
+
+    .cart-subtitle {
+        display: none;
+    }
+
+
+    .customer-section {
+        padding:
+            8px
+            12px
+            5px
+            12px;
+    }
+
+
+    .field-label {
+        margin-bottom: 4px;
+
+        font-size: 10px;
+    }
+
+
+    .customer-select,
+    .add-customer-btn {
+        height: 40px;
+    }
+
+
+    .barcode-section {
+        padding:
+            2px
+            12px
+            7px
+            12px;
+    }
+
+
+    .barcode-input {
+        height: 41px;
+    }
+
+
+    .cart-list-header {
+        padding:
+            7px
+            10px;
+    }
+
+
+    .cart-item {
+        padding:
+            8px
+            10px;
+    }
+
+
+    .cart-summary {
+        padding:
+            7px
+            12px;
+    }
+
+
+    .summary-row {
+        min-height: 24px;
+    }
+
+
+    .total-row {
+        min-height: 32px;
+    }
+
+
+    .total-amount {
+        font-size: 18px !important;
+    }
+
+
+    .cart-actions {
+        padding:
+            0
+            12px
+            9px
+            12px;
+    }
+
+
+    .pos-btn {
+        min-height: 43px;
+    }
+
+
+    /* -----------------------------------------
+       RIGHT PANEL
+    ----------------------------------------- */
+
+    .product-header {
+        padding:
+            9px
+            12px;
+    }
+
+
+    .product-subtitle {
+        display: none;
+    }
+
+
+    .category-wrapper {
+        padding:
+            7px
+            12px
+            4px
+            12px;
+    }
+
+
+    .category-btn {
+        min-height: 38px;
+    }
+
+
+    .product-search-section {
+        padding:
+            3px
+            12px
+            8px
+            12px;
+    }
+
+
+    .product-search-input {
+        height: 40px;
+    }
+
+
+    .product-body {
+        padding:
+            2px
+            12px
+            12px
+            12px;
+    }
+
+
+    .product-grid {
+        gap: 8px;
+    }
+
+
+    .product-image {
+        aspect-ratio: 1.65 / 1;
+    }
+
+
+    .product-info {
+        padding: 8px;
+    }
+
+}
+
+
+
+/* =========================================================
+   TOUCH DEVICE
+
+   Pastikan target sentuhan lebih selesa.
+========================================================= */
+
+@media (hover: none) and (pointer: coarse) {
+
+    button,
+    .product-card,
+    .category-btn {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+
+    .category-btn {
+        min-height: 44px;
+    }
+
+
+    .qty-btn {
+        min-width: 34px;
+        min-height: 36px;
+    }
+
+
+    /* Jangan gunakan efek */
+
+
+  /* =========================================================
+   BAHAGIAN 5
+   MODAL PEMBAYARAN
+========================================================= */
+
+.payment-modal {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(15, 23, 42, 0.55);
+
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+}
+
+
+/* MODAL AKTIF */
+
+.payment-modal.show {
+    display: flex;
+}
+
+
+/* =========================================================
+   PAYMENT BOX
+========================================================= */
+
+.payment-dialog {
+    width: min(720px, 100%);
+
+    max-height: calc(100vh - 40px);
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 25px 60px rgba(15, 23, 42, 0.25);
+
+    animation: paymentModalIn 0.18s ease-out;
+}
+
+
+@keyframes paymentModalIn {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(15px)
+            scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
+}
+
+
+/* =========================================================
+   PAYMENT HEADER
+========================================================= */
+
+.payment-modal-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding:
+        17px
+        20px;
+
+    border-bottom: 1px solid #e2e8f0;
+}
+
+
+.payment-modal-title-wrap {
+    min-width: 0;
+}
+
+
+.payment-modal-title {
+    font-size: 20px;
+    font-weight: 800;
+
+    color: #0f172a;
+}
+
+
+.payment-modal-subtitle {
+    margin-top: 3px;
+
+    font-size: 12px;
+
+    color: #64748b;
+}
+
+
+/* CLOSE BUTTON */
+
+.payment-close-btn {
+    flex: 0 0 auto;
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+    border-radius: 10px;
+
+    background: #f1f5f9;
+
+    color: #475569;
+
+    font-size: 22px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    touch-action: manipulation;
+
+    transition:
+        background 0.2s,
+        color 0.2s,
+        transform 0.1s;
+}
+
+
+.payment-close-btn:hover {
+    background: #fee2e2;
+
+    color: #dc2626;
+}
+
+
+.payment-close-btn:active {
+    transform: scale(0.94);
+}
+
+
+/* =========================================================
+   PAYMENT BODY
+========================================================= */
+
+.payment-modal-body {
+    overflow-y: auto;
+
+    padding: 18px 20px 20px 20px;
+}
+
+
+.payment-modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+
+.payment-modal-body::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+
+    border-radius: 100px;
+}
+
+
+/* =========================================================
+   JUMLAH PERLU BAYAR
+========================================================= */
+
+.payment-total-box {
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 18px 20px;
+
+    margin-bottom: 18px;
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0f766e,
+            #0d9488
+        );
+
+    color: #ffffff;
+}
+
+
+.payment-total-label {
+    position: relative;
+
+    z-index: 1;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    color: rgba(255, 255, 255, 0.8);
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.05em;
+}
+
+
+.payment-total-amount {
+    position: relative;
+
+    z-index: 1;
+
+    margin-top: 4px;
+
+    font-size: 34px;
+    font-weight: 900;
+
+    letter-spacing: -0.02em;
+}
+
+
+/* HIASAN */
+
+.payment-total-box::after {
+    content: "";
+
+    position: absolute;
+
+    width: 130px;
+    height: 130px;
+
+    top: -55px;
+    right: -25px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.08);
+}
+
+
+/* =========================================================
+   SECTION LABEL
+========================================================= */
+
+.payment-section-label {
+    display: block;
+
+    margin-bottom: 9px;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    color: #475569;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.05em;
+}
+
+
+/* =========================================================
+   KAEDAH BAYARAN
+========================================================= */
+
+.payment-methods {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 9px;
+
+    margin-bottom: 18px;
+}
+
+
+.payment-method {
+    min-height: 88px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 10px;
+
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    color: #475569;
+
+    cursor: pointer;
+
+    touch-action: manipulation;
+
+    transition:
+        border-color 0.18s,
+        background 0.18s,
+        color 0.18s,
+        transform 0.1s;
+}
+
+
+.payment-method:hover {
+    border-color: #99f6e4;
+
+    background: #f0fdfa;
+}
+
+
+.payment-method:active {
+    transform: scale(0.97);
+}
+
+
+.payment-method.active {
+    border-color: #0d9488;
+
+    background: #f0fdfa;
+
+    color: #0f766e;
+}
+
+
+.payment-method-icon {
+    font-size: 25px;
+    line-height: 1;
+}
+
+
+.payment-method-name {
+    font-size: 12px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   CASH SECTION
+========================================================= */
+
+.cash-payment-section {
+    display: block;
+}
+
+
+.cash-input-wrap {
+    position: relative;
+
+    margin-bottom: 12px;
+}
+
+
+.cash-prefix {
+    position: absolute;
+
+    top: 50%;
+    left: 16px;
+
+    transform: translateY(-50%);
+
+    font-size: 14px;
+    font-weight: 800;
+
+    color: #64748b;
+
+    pointer-events: none;
+}
+
+
+.cash-input {
+    width: 100%;
+    height: 58px;
+
+    padding:
+        0
+        16px
+        0
+        54px;
+
+    border: 2px solid #cbd5e1;
+    border-radius: 11px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: #0f172a;
+
+    font-size: 21px;
+    font-weight: 800;
+
+    text-align: right;
+
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+
+.cash-input:focus {
+    border-color: #14b8a6;
+
+    box-shadow:
+        0 0 0 3px rgba(20, 184, 166, 0.12);
+}
+
+
+/* =========================================================
+   QUICK CASH
+========================================================= */
+
+.quick-cash {
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, minmax(0, 1fr));
+
+    gap: 7px;
+
+    margin-bottom: 17px;
+}
+
+
+.quick-cash-btn {
+    min-height: 44px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+
+    background: #f8fafc;
+
+    color: #334155;
+
+    font-size: 12px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    touch-action: manipulation;
+
+    transition:
+        background 0.15s,
+        border-color 0.15s,
+        color 0.15s,
+        transform 0.1s;
+}
+
+
+.quick-cash-btn:hover {
+    background: #ecfdf5;
+
+    border-color: #6ee7b7;
+
+    color: #047857;
+}
+
+
+.quick-cash-btn:active {
+    transform: scale(0.96);
+}
+
+
+/* =========================================================
+   BAKI
+========================================================= */
+
+.payment-change-box {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    min-height: 65px;
+
+    padding: 13px 16px;
+
+    margin-bottom: 17px;
+
+    border: 1px solid #bbf7d0;
+    border-radius: 11px;
+
+    background: #f0fdf4;
+}
+
+
+.payment-change-label {
+    font-size: 13px;
+    font-weight: 700;
+
+    color: #475569;
+}
+
+
+.payment-change {
+    font-size: 22px;
+    font-weight: 900;
+
+    color: #15803d;
+
+    text-align: right;
+}
+
+
+/* BILA WANG TIDAK CUKUP */
+
+.payment-change-box.insufficient {
+    border-color: #fecaca;
+
+    background: #fef2f2;
+}
+
+
+.payment-change-box.insufficient .payment-change {
+    color: #dc2626;
+}
+
+
+/* =========================================================
+   NON-CASH
+========================================================= */
+
+.non-cash-section {
+    display: none;
+
+    margin-bottom: 17px;
+}
+
+
+.non-cash-section.show {
+    display: block;
+}
+
+
+.non-cash-info {
+    display: flex;
+
+    gap: 12px;
+
+    padding: 15px;
+
+    border: 1px solid #bae6fd;
+    border-radius: 11px;
+
+    background: #f0f9ff;
+}
+
+
+.non-cash-icon {
+    flex: 0 0 auto;
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: #e0f2fe;
+
+    font-size: 21px;
+}
+
+
+.non-cash-text {
+    min-width: 0;
+}
+
+
+.non-cash-title {
+    font-size: 13px;
+    font-weight: 800;
+
+    color: #0c4a6e;
+}
+
+
+.non-cash-description {
+    margin-top: 3px;
+
+    font-size: 11px;
+    line-height: 1.5;
+
+    color: #64748b;
+}
+
+
+/* =========================================================
+   CATATAN PEMBAYARAN
+========================================================= */
+
+.payment-note {
+    width: 100%;
+
+    min-height: 72px;
+
+    resize: vertical;
+
+    padding: 11px 13px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+
+    outline: none;
+
+    font-family: inherit;
+    font-size: 13px;
+
+    color: #334155;
+
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+
+.payment-note:focus {
+    border-color: #14b8a6;
+
+    box-shadow:
+        0 0 0 3px rgba(20, 184, 166, 0.1);
+}
+
+
+/* =========================================================
+   PAYMENT FOOTER
+========================================================= */
+
+.payment-modal-footer {
+    display: grid;
+
+    grid-template-columns:
+        0.75fr
+        1.25fr;
+
+    gap: 10px;
+
+    padding:
+        14px
+        20px
+        18px
+        20px;
+
+    border-top: 1px solid #e2e8f0;
+
+    background: #f8fafc;
+}
+
+
+.payment-footer-btn {
+    min-height: 54px;
+
+    padding: 0 15px;
+
+    border: 0;
+    border-radius: 11px;
+
+    font-size: 13px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    touch-action: manipulation;
+
+    transition:
+        background 0.2s,
+        opacity 0.2s,
+        transform 0.1s;
+}
+
+
+.payment-footer-btn:active {
+    transform: scale(0.98);
+}
+
+
+/* BATAL */
+
+.payment-cancel {
+    background: #e2e8f0;
+
+    color: #475569;
+}
+
+
+.payment-cancel:hover {
+    background: #cbd5e1;
+}
+
+
+/* SAHKAN */
+
+.payment-confirm {
+    background: #10b981;
+
+    color: #ffffff;
+
+    box-shadow:
+        0 5px 15px rgba(16, 185, 129, 0.18);
+}
+
+
+.payment-confirm:hover {
+    background: #059669;
+}
+
+
+.payment-confirm:disabled {
+    opacity: 0.45;
+
+    cursor: not-allowed;
+
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   SUCCESS PAYMENT
+========================================================= */
+
+.payment-success {
+    display: none;
+
+    padding: 34px 20px;
+
+    text-align: center;
+}
+
+
+.payment-success.show {
+    display: block;
+}
+
+
+.payment-success-icon {
+    width: 76px;
+    height: 76px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin:
+        0
+        auto
+        15px
+        auto;
+
+    border-radius: 50%;
+
+    background: #dcfce7;
+
+    color: #16a34a;
+
+    font-size: 37px;
+    font-weight: 900;
+}
+
+
+.payment-success-title {
+    font-size: 22px;
+    font-weight: 900;
+
+    color: #0f172a;
+}
+
+
+.payment-success-text {
+    margin-top: 6px;
+
+    font-size: 13px;
+
+    color: #64748b;
+}
+
+
+.payment-success-total {
+    margin-top: 14px;
+
+    font-size: 28px;
+    font-weight: 900;
+
+    color: #0f766e;
+}
+
+
+/* =========================================================
+   RESPONSIVE PAYMENT MODAL
+   TABLET PORTRAIT
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .payment-modal {
+        padding: 12px;
+    }
+
+
+    .payment-dialog {
+        max-height: calc(100vh - 24px);
+
+        border-radius: 15px;
+    }
+
+
+    .payment-modal-header {
+        padding:
+            14px
+            15px;
+    }
+
+
+    .payment-modal-title {
+        font-size: 18px;
+    }
+
+
+    .payment-modal-body {
+        padding:
+            14px
+            15px
+            16px
+            15px;
+    }
+
+
+    .payment-total-box {
+        padding:
+            16px;
+
+        margin-bottom: 15px;
+    }
+
+
+    .payment-total-amount {
+        font-size: 30px;
+    }
+
+
+    .payment-methods {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+
+    .payment-method {
+        min-height: 76px;
+    }
+
+
+    .quick-cash {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
+
+    .payment-modal-footer {
+        padding:
+            12px
+            15px
+            15px
+            15px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE KECIL
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .payment-modal {
+        padding: 0;
+
+        align-items: flex-end;
+    }
+
+
+    .payment-dialog {
+        width: 100%;
+
+        max-height: 94vh;
+
+        border-radius:
+            18px
+            18px
+            0
+            0;
+    }
+
+
+    .payment-modal-subtitle {
+        display: none;
+    }
+
+
+    .payment-methods {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 7px;
+    }
+
+
+    .quick-cash {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+
+    .payment-modal-footer {
+        grid-template-columns:
+            1fr
+            1.4fr;
+    }
+
+}
+
+
+/* =========================================================
+   LANDSCAPE - KETINGGIAN RENDAH
+========================================================= */
+
+@media
+    (orientation: landscape)
+    and (max-height: 650px) {
+
+    .payment-modal {
+        padding: 8px;
+    }
+
+
+    .payment-dialog {
+        max-height: calc(100vh - 16px);
+    }
+
+
+    .payment-modal-header {
+        padding:
+            10px
+            16px;
+    }
+
+
+    .payment-modal-body {
+        padding:
+            12px
+            16px;
+    }
+
+
+    .payment-total-box {
+        padding:
+            12px
+            16px;
+
+        margin-bottom: 12px;
+    }
+
+
+    .payment-total-amount {
+        font-size: 27px;
+    }
+
+
+    .payment-method {
+        min-height: 68px;
+    }
+
+
+    .cash-input {
+        height: 50px;
+    }
+
+
+    .payment-change-box {
+        min-height: 54px;
+    }
+
+
+    .payment-modal-footer {
+        padding:
+            10px
+            16px;
+    }
+
+
+    .payment-footer-btn {
+        min-height: 46px;
+    }
+
+}
+</style>
+</head>
+<body>
+<!-- =======================================================
+     MAIN POS
+======================================================== -->
+
+<main class="pos-main">
+
+
+    <!-- ===================================================
+         PANEL KIRI
+         TRANSAKSI SEMASA
+    ==================================================== -->
+
+    <section class="cart-panel">
+
+
+        <!-- ===============================================
+             HEADER TRANSAKSI
+        ================================================ -->
+
+        <div class="cart-header">
+
+            <div class="cart-header-left">
+
+                <div class="cart-title">
+                    Transaksi Semasa
+                </div>
+
+                <div class="cart-subtitle">
+                    Tambah sparepart untuk transaksi ini
+                </div>
+
+            </div>
+
+
+            <div
+                class="cart-number"
+                id="transactionNumber"
+            >
+                #001
+            </div>
+
+        </div>
+
+
+        <!-- ===============================================
+             PILIH PELANGGAN
+        ================================================ -->
+
+        <div class="customer-section">
+
+            <label
+                class="field-label"
+                for="customerSelect"
+            >
+                Pelanggan
+            </label>
+
+
+            <div class="customer-row">
+
+                <select
+                    class="customer-select"
+                    id="customerSelect"
+                >
+
+                    <option value="walk-in">
+                        Walk-in Customer
+                    </option>
+
+                    <option value="customer-001">
+                        Ahmad Motor
+                    </option>
+
+                    <option value="customer-002">
+                        Bengkel Maju
+                    </option>
+
+                    <option value="customer-003">
+                        Haziq
+                    </option>
+
+                </select>
+
+
+                <button
+                    type="button"
+                    class="add-customer-btn"
+                    id="addCustomerBtn"
+                    title="Tambah pelanggan"
+                >
+                    +
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ===============================================
+             BARCODE
+        ================================================ -->
+
+        <div class="barcode-section">
+
+            <label
+                class="field-label"
+                for="barcodeInput"
+            >
+                Barcode / Kod Barang
+            </label>
+
+
+            <div class="barcode-box">
+
+                <input
+                    type="text"
+                    class="barcode-input"
+                    id="barcodeInput"
+                    placeholder="Scan barcode atau masukkan kod..."
+                    autocomplete="off"
+                >
+
+                <span
+                    class="barcode-icon"
+                    aria-hidden="true"
+                >
+                    ▥
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ===============================================
+             HEADER SENARAI BARANG
+        ================================================ -->
+
+        <div class="cart-list-header">
+
+            <div>Produk</div>
+
+            <div>Harga</div>
+
+            <div>Kuantiti</div>
+
+            <div>Jumlah</div>
+
+        </div>
+
+
+        <!-- ===============================================
+             SENARAI BARANG
+        ================================================ -->
+
+        <div
+            class="cart-items"
+            id="cartItems"
+        >
+
+
+            <!-- ===========================================
+                 PAPAR APABILA TROLI KOSONG
+            ============================================ -->
+
+            <div
+                class="empty-cart"
+                id="emptyCart"
+            >
+
+                <div class="empty-cart-icon">
+                    🛒
+                </div>
+
+
+                <div class="empty-cart-title">
+                    Troli masih kosong
+                </div>
+
+
+                <div class="empty-cart-text">
+                    Pilih sparepart di sebelah kanan atau
+                    scan barcode untuk menambah barang.
+                </div>
+
+            </div>
+
+
+            <!--
+            =================================================
+            CONTOH CART ITEM
+
+            JavaScript Bahagian 6 nanti akan jana
+            struktur ini secara automatik.
+            =================================================
+
+            <div class="cart-item">
+
+                <div class="cart-product">
+
+                    <div class="cart-product-name">
+                        Minyak Hitam 10W40
+                    </div>
+
+                    <div class="cart-product-code">
+                        MH-PET-10W40
+                    </div>
+
+                </div>
+
+
+                <div class="cart-price">
+                    RM35.00
+                </div>
+
+
+                <div class="qty-control">
+
+                    <button class="qty-btn">
+                        −
+                    </button>
+
+                    <span class="qty-value">
+                        1
+                    </span>
+
+                    <button class="qty-btn">
+                        +
+                    </button>
+
+                </div>
+
+
+                <div class="cart-item-total">
+                    RM35.00
+                </div>
+
+            </div>
+
+            -->
+
+        </div>
+
+
+        <!-- ===============================================
+             RINGKASAN BAYARAN
+        ================================================ -->
+
+        <div class="cart-summary">
+
+
+            <!-- SUBTOTAL -->
+
+            <div class="summary-row">
+
+                <span>
+                    Subtotal
+                </span>
+
+                <span id="subtotalAmount">
+                    RM0.00
+                </span>
+
+            </div>
+
+
+            <!-- JUMLAH ITEM -->
+
+            <div class="summary-row">
+
+                <span>
+                    Jumlah Item
+                </span>
+
+                <span id="totalItems">
+                    0
+                </span>
+
+            </div>
+
+
+            <!-- DISKAUN -->
+
+            <div
+                class="summary-row discount-row"
+                id="discountRow"
+            >
+
+                <span>
+                    Diskaun
+                </span>
+
+                <span
+                    class="discount-value"
+                    id="discountAmount"
+                >
+                    RM0.00
+                </span>
+
+            </div>
+
+
+            <div class="summary-divider"></div>
+
+
+            <!-- TOTAL -->
+
+            <div class="summary-row total-row">
+
+                <span class="total-label">
+                    JUMLAH
+                </span>
+
+                <span
+                    class="total-amount"
+                    id="grandTotal"
+                >
+                    RM0.00
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ===============================================
+             BUTTON BATAL / BAYAR
+        ================================================ -->
+
+        <div class="cart-actions">
+
+            <button
+                type="button"
+                class="pos-btn cancel-btn"
+                id="cancelTransactionBtn"
+            >
+                BATAL
+            </button>
+
+
+            <button
+                type="button"
+                class="pos-btn payment-btn"
+                id="paymentBtn"
+                disabled
+            >
+                BAYAR
+            </button>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- ===================================================
+         PANEL KANAN
+
+         JANGAN TUTUP MAIN LAGI.
+
+         BAHAGIAN 3 AKAN DIMASUKKAN DI SINI.
+    ==================================================== -->
+
+    <section class="product-panel">
+
+
+        <!-- ===============================================
+             HEADER PRODUK
+        ================================================ -->
+
+        <div class="product-header">
+
+            <div class="product-header-left">
+
+                <div class="product-title">
+                    Pilih Sparepart
+                </div>
+
+                <div class="product-subtitle">
+                    Tekan produk untuk tambah ke dalam troli
+                </div>
+
+            </div>
+
+
+            <div
+                class="product-count"
+                id="productCount"
+            >
+                12 Produk
+            </div>
+
+        </div>
+
+
+        <!-- ===============================================
+             KATEGORI
+        ================================================ -->
+
+        <div class="category-wrapper">
+
+            <div
+                class="category-list"
+                id="categoryList"
+            >
+
+                <button
+                    type="button"
+                    class="category-btn active"
+                    data-category="semua"
+                >
+                    Semua
+                </button>
+
+
+                <button
+                    type="button"
+                    class="category-btn"
+                    data-category="minyak"
+                >
+                    Minyak
+                </button>
+
+
+                <button
+                    type="button"
+                    class="category-btn"
+                    data-category="enjin"
+                >
+                    Enjin
+                </button>
+
+
+                <button
+                    type="button"
+                    class="category-btn"
+                    data-category="brek"
+                >
+                    Brek
+                </button>
+
+
+                <button
+                    type="button"
+                    class="category-btn"
+                    data-category="elektrik"
+                >
+                    Elektrik
+                </button>
+
+
+                <button
+                    type="button"
+                    class="category-btn"
+                    data-category="tayar"
+                >
+                    Tayar
+                </button>
+
+
+                <button
+                    type="button"
+                    class="category-btn"
+                    data-category="rantai"
+                >
+                    Rantai
+                </button>
+
+
+                <button
+                    type="button"
+                    class="category-btn"
+                    data-category="aksesori"
+                >
+                    Aksesori
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ===============================================
+             SEARCH PRODUK
+        ================================================ -->
+
+        <div class="product-search-section">
+
+            <div class="product-search-box">
+
+                <input
+                    type="search"
+                    class="product-search-input"
+                    id="productSearchInput"
+                    placeholder="Cari nama sparepart, SKU atau kod..."
+                    autocomplete="off"
+                >
+
+
+                <span
+                    class="product-search-icon"
+                    aria-hidden="true"
+                >
+                    🔍
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ===============================================
+             PRODUCT BODY
+        ================================================ -->
+
+        <div class="product-body">
+
+
+            <!-- ===========================================
+                 PRODUCT GRID
+            ============================================ -->
+
+            <div
+                class="product-grid"
+                id="productGrid"
+            >
+
+
+                <!-- =======================================
+                     PRODUK 1
+                ======================================== -->
+
+                <article
+                    class="product-card"
+                    data-id="1"
+                    data-category="minyak"
+                    data-name="Minyak Hitam Petronas 10W40"
+                    data-code="MH-PET-10W40"
+                    data-barcode="955001001"
+                    data-price="35.00"
+                    data-stock="18"
+                >
+
+                    <div class="product-image">
+
+                        <div class="product-placeholder">
+
+                            <div class="product-placeholder-icon">
+                                🛢️
+                            </div>
+
+                            <div class="product-placeholder-text">
+                                Minyak Enjin
+                            </div>
+
+                        </div>
+
+
+                        <span class="stock-badge stock-ok">
+                            STOK 18
+                        </span>
+
+                    </div>
+
+
+                    <div class="product-info">
+
+                        <div class="product-category-name">
+                            Minyak
+                        </div>
+
+                        <div class="product-name">
+                            Minyak Hitam Petronas 10W40
+                        </div>
+
+                        <div class="product-code">
+                            MH-PET-10W40
+                        </div>
+
+
+                        <div class="product-bottom">
+
+                            <div class="product-price">
+                                RM35.00
+                            </div>
+
+                            <div class="product-stock">
+                                Baki 18
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="product-add">
+                        + Tambah
+                    </div>
+
+                </article>
+
+
+                <!-- =======================================
+                     PRODUK 2
+                ======================================== -->
+
+                <article
+                    class="product-card"
+                    data-id="2"
+                    data-category="enjin"
+                    data-name="Oil Filter Y15ZR"
+                    data-code="OF-Y15ZR"
+                    data-barcode="955001002"
+                    data-price="12.00"
+                    data-stock="7"
+                >
+
+                    <div class="product-image">
+
+                        <div class="product-placeholder">
+
+                            <div class="product-placeholder-icon">
+                                ⚙️
+                            </div>
+
+                            <div class="product-placeholder-text">
+                                Oil Filter
+                            </div>
+
+                        </div>
+
+
+                        <span class="stock-badge stock-low">
+                            STOK 7
+                        </span>
+
+                    </div>
+
+
+                    <div class="product-info">
+
+                        <div class="product-category-name">
+                            Enjin
+                        </div>
+
+                        <div class="product-name">
+                            Oil Filter Y15ZR
+                        </div>
+
+                        <div class="product-code">
+                            OF-Y15ZR
+                        </div>
+
+
+                        <div class="product-bottom">
+
+                            <div class="product-price">
+                                RM12.00
+                            </div>
+
+                            <div class="product-stock">
+                                Baki 7
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="product-add">
+                        + Tambah
+                    </div>
+
+                </article>
+
+
+                <!-- =======================================
+                     PRODUK 3
+                ======================================== -->
+
+                <article
+                    class="product-card"
+                    data-id="3"
+                    data-category="elektrik"
+                    data-name="Spark Plug NGK"
+                    data-code="SP-NGK-CPR8EA"
+                    data-barcode="955001003"
+                    data-price="18.00"
+                    data-stock="23"
+                >
+
+                    <div class="product-image">
+
+                        <div class="product-placeholder">
+
+                            <div class="product-placeholder-icon">
+                                ⚡
+                            </div>
+
+                            <div class="product-placeholder-text">
+                                Spark Plug
+                            </div>
+
+                        </div>
+
+
+                        <span class="stock-badge stock-ok">
+                            STOK 23
+                        </span>
+
+                    </div>
+
+
+                    <div class="product-info">
+
+                        <div class="product-category-name">
+                            Elektrik
+                        </div>
+
+                        <div class="product-name">
+                            Spark Plug NGK
+                        </div>
+
+                        <div class="product-code">
+                            SP-NGK-CPR8EA
+                        </div>
+
+
+                        <div class="product-bottom">
+
+                            <div class="product-price">
+                                RM18.00
+                            </div>
+
+                            <div class="product-stock">
+                                Baki 23
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="product-add">
+                        + Tambah
+                    </div>
+
+                </article>
+
+
+                <!-- =======================================
+                     PRODUK 4
+                ======================================== -->
+
+                <article
+                    class="product-card"
+                    data-id="4"
+                    data-category="brek"
+                    data-name="Brake Pad Yamaha Y15ZR"
+                    data-code="BP-Y15ZR"
+                    data-barcode="955001004"
+                    data-price="25.00"
+                    data-stock="4"
+                >
+
+                    <div class="product-image">
+
+                        <div class="product-placeholder">
+
+                            <div class="product-placeholder-icon">
+                                🛞
+                            </div>
+
+                            <div class="product-placeholder-text">
+                                Brake Pad
+                            </div>
+
+                        </div>
+
+
+                        <span class="stock-badge stock-low">
+                            STOK 4
+                        </span>
+
+                    </div>
+
+
+                    <div class="product-info">
+
+                        <div class="product-category-name">
+                            Brek
+                        </div>
+
+                        <div class="product-name">
+                            Brake Pad Yamaha Y15ZR
+                        </div>
+
+                        <div class="product-code">
+                            BP-Y15ZR
+                        </div>
+
+
+                        <div class="product-bottom">
+
+                            <div class="product-price">
+                                RM25.00
+                            </div>
+
+                            <div class="product-stock">
+                                Baki 4
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="product-add">
+                        + Tambah
+                    </div>
+
+                </article>
+
+
+                <!-- =======================================
+                     PRODUK 5
+                ======================================== -->
+
+                <article
+                    class="product-card"
+                    data-id="5"
+                    data-category="rantai"
+                    data-name="Rantai DID 428"
+                    data-code="CHAIN-DID-428"
+                    data-barcode="955001005"
+                    data-price="55.00"
+                    data-stock="10"
+                >
+
+                    <div class="product-image">
+
+                        <div class="product-placeholder">
+
+                            <div class="product-placeholder-icon">
+                                ⛓️
+                            </div>
+
+                            <div class="product-placeholder-text">
+                                Rantai
+                            </div>
+
+                        </div>
+
+
+                        <span class="stock-badge stock-ok">
+                            STOK 10
+                        </span>
+
+                    </div>
+
+
+                    <div class="product-info">
+
+                        <div class="product-category-name">
+                            Rantai
+                        </div>
+
+                        <div class="product-name">
+                            Rantai DID 428
+                        </div>
+
+                        <div class="product-code">
+                            CHAIN-DID-428
+                        </div>
+
+
+                        <div class="product-bottom">
+
+                            <div class="product-price">
+                                RM55.00
+                            </div>
+
+                            <div class="product-stock">
+                                Baki 10
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="product-add">
+                        + Tambah
+                    </div>
+
+                </article>
+
+
+                <!-- =======================================
+                     PRODUK 6
+                ======================================== -->
+
+                <article
+                    class="product-card"
+                    data-id="6"
+                    data-category="tayar"
+                    data-name="Tayar Depan 70/90-17"
+                    data-code="TYRE-7090-17"
+                    data-barcode="955001006"
+                    data-price="85.00"
+                    data-stock="6"
+                >
+
+                    <div class="product-image">
+
+                        <div class="product-placeholder">
+
+                            <div class="product-placeholder-icon">
+                                🛞
+                            </div>
+
+                            <div class="product-placeholder-text">
+                                Tayar
+                            </div>
+
+                        </div>
+
+
+                        <span class="stock-badge stock-low">
+                            STOK 6
+                        </span>
+
+                    </div>
+
+
+                    <div class="product-info">
+
+                        <div class="product-category-name">
+                            Tayar
+                        </div>
+
+                        <div class="product-name">
+                            Tayar Depan 70/90-17
+                        </div>
+
+                        <div class="product-code">
+                            TYRE-7090-17
+                        </div>
+
+
+                        <div class="product-bottom">
+
+                            <div class="product-price">
+                                RM85.00
+                            </div>
+
+                            <div class="product-stock">
+                                Baki 6
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="product-add">
+                        + Tambah
+                    </div>
+
+                </article>
+
+
+                <!-- =======================================
+                     PRODUK 7
+                ======================================== -->
+
+                <article
+                    class="product-card"
+                    data-id="7"
+                    data-category="elektrik"
+                    data-name="Mentol Lampu LED H6"
+                    data-code="LED-H6"
+                    data-barcode="955001007"
+                    data-price="15.00"
+                    data-stock="15"
+                >
+
+                    <div class="product-image">
+
+                        <div class="product-placeholder">
+
+                            <div class="product-placeholder-icon">
+                                💡
+                            </div>
+
+                            <div class="product-placeholder-text">
+                                Lampu
+                            </div>
+
+                        </div>
+
+
+                        <span class="stock-badge stock-ok">
+                            STOK 15
+                        </span>
+
+                    </div>
+
+
+                    <div class="product-info">
+
+                        <div class="product-category-name">
+                            Elektrik
+                        </div>
+
+                        <div class="product-name">
+                            Mentol Lampu LED H6
+                        </div>
+
+                        <div class="product-code">
+                            LED-H6
+                        </div>
+
+
+                        <div class="product-bottom">
+
+                            <div class="product-price">
+                                RM15.00
+                            </div>
+
+                            <div class="product-stock">
+                                Baki 15
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="product-add">
+                        + Tambah
+                    </div>
+
+                </article>
+
+
+                <!-- =======================================
+                     PRODUK 8
+                ======================================== -->
+
+                <article
+                    class="product-card"
+                    data-id="8"
+                    data-category="enjin"
+                    data-name="Air Filter LC135"
+                    data-code="AF-LC135"
+                    data-barcode="955001008"
+                    data-price="16.00"
+                    data-stock="3"
+                >
+
+                    <div class="product-image">
+
+                        <div class="product-placeholder">
+
+                            <div class="product-placeholder-icon">
+                                ⚙️
+                            </div>
+
+                            <div class="product-placeholder-text">
+                                Air Filter
+                            </div>
+
+                        </div>
+
+
+                        <span class="stock-badge stock-low">
+                            STOK 3
+                        </span>
+
+                    </div>
+
+
+                    <div class="product-info">
+
+                        <div class="product-category-name">
+                            Enjin
+                        </div>
+
+                        <div class="product-name">
+                            Air Filter LC135
+                        </div>
+
+                        <div class="product-code">
+                            AF-LC135
+                        </div>
+
+
+                        <div class="product-bottom">
+
+                            <div class="product-price">
+                                RM16.00
+                            </div>
+
+                            <div class="product-stock">
+                                Baki 3
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="product-add">
+                        + Tambah
+                    </div>
+
+                </article>
+
+
+                <!-- =======================================
+                     PRODUK 9
+                ======================================== -->
+
+                <article
+                    class="product-card"
+                    data-id="9"
+                    data-category="brek"
+                    data-name="Minyak Brek DOT 4"
+                    data-code="BF-DOT4"
+                    data-barcode="955001009"
+                    data-price="14.00"
+                    data-stock="11"
+                >
+
+                    <div class="product-image">
+
+                        <div class="product-placeholder">
+
+                            <div class="product-placeholder-icon">
+                                🧴
+                            </div>
+
+                            <div class="product-placeholder-text">
+                                Brake Fluid
+                            </div>
+
+                        </div>
+
+
+                        <span class="stock-badge stock-ok">
+                            STOK 11
+                        </span>
+
+                    </div>
+
+
+                    <div class="product-info">
+
+                        <div class="product-category-name">
+                            Brek
+                        </div>
+
+                        <div class="product-name">
+                            Minyak Brek DOT 4
+                        </div>
+
+                        <div class="product-code">
+                            BF-DOT4
+                        </div>
+
+
+                        <div class="product-bottom">
+
+                            <div class="product-price">
+                                RM14.00
+                            </div>
+
+                            <div class="product-stock">
+                                Baki 11
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="product-add">
+                        + Tambah
+                    </div>
+
+                </article>
+
+
+                <!-- =======================================
+                     PRODUK 10
+                ======================================== -->
+
+                <article
+                    class="product-card"
+                    data-id="10"
+                    data-category="aksesori"
+                    data-name="Side Mirror Universal"
+                    data-code="SM-UNI-01"
+                    data-barcode="955001010"
+                    data-price="28.00"
+                    data-stock="8"
+                >
+
+                    <div class="product-image">
+
+                        <div class="product-placeholder">
+
+                            <div class="product-placeholder-icon">
+                                🔧
+                            </div>
+
+                            <div class="product-placeholder-text">
+                                Aksesori
+                            </div>
+
+                        </div>
+
+
+                        <span class="stock-badge stock-ok">
+                            STOK 8
+                        </span>
+
+                    </div>
+
+
+                    <div class="product-info">
+
+                        <div class="product-category-name">
+                            Aksesori
+                        </div>
+
+                        <div class="product-name">
+                            Side Mirror Universal
+                        </div>
+
+                        <div class="product-code">
+                            SM-UNI-01
+                        </div>
+
+
+                        <div class="product-bottom">
+
+                            <div class="product-price">
+                                RM28.00
+                            </div>
+
+                            <div class="product-stock">
+                                Baki 8
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="product-add">
+                        + Tambah
+                    </div>
+
+                </article>
+
+
+                <!-- =======================================
+                     PRODUK 11
+                     HABIS STOK
+                ======================================== -->
+
+                <article
+                    class="product-card out-of-stock"
+                    data-id="11"
+                    data-category="enjin"
+                    data-name="Clutch Plate LC135"
+                    data-code="CP-LC135"
+                    data-barcode="955001011"
+                    data-price="48.00"
+                    data-stock="0"
+                >
+
+                    <div class="product-image">
+
+                        <div class="product-placeholder">
+
+                            <div class="product-placeholder-icon">
+                                ⚙️
+                            </div>
+
+                            <div class="product-placeholder-text">
+                                Clutch
+                            </div>
+
+                        </div>
+
+
+                        <span class="stock-badge stock-out">
+                            HABIS
+                        </span>
+
+                    </div>
+
+
+                    <div class="product-info">
+
+                        <div class="product-category-name">
+                            Enjin
+                        </div>
+
+                        <div class="product-name">
+                            Clutch Plate LC135
+                        </div>
+
+                        <div class="product-code">
+                            CP-LC135
+                        </div>
+
+
+                        <div class="product-bottom">
+
+                            <div class="product-price">
+                                RM48.00
+                            </div>
+
+                            <div class="product-stock">
+                                Stok habis
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =======================================
+                     PRODUK 12
+                ======================================== -->
+
+                <article
+                    class="product-card"
+                    data-id="12"
+                    data-category="minyak"
+                    data-name="Gear Oil 80W90"
+                    data-code="GO-80W90"
+                    data-barcode="955001012"
+                    data-price="18.50"
+                    data-stock="14"
+                >
+
+                    <div class="product-image">
+
+                        <div class="product-placeholder">
+
+                            <div class="product-placeholder-icon">
+                                🛢️
+                            </div>
+
+                            <div class="product-placeholder-text">
+                                Gear Oil
+                            </div>
+
+                        </div>
+
+
+                        <span class="stock-badge stock-ok">
+                            STOK 14
+                        </span>
+
+                    </div>
+
+
+                    <div class="product-info">
+
+                        <div class="product-category-name">
+                            Minyak
+                        </div>
+
+                        <div class="product-name">
+                            Gear Oil 80W90
+                        </div>
+
+                        <div class="product-code">
+                            GO-80W90
+                        </div>
+
+
+                        <div class="product-bottom">
+
+                            <div class="product-price">
+                                RM18.50
+                            </div>
+
+                            <div class="product-stock">
+                                Baki 14
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="product-add">
+                        + Tambah
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <!-- ===========================================
+                 TIADA PRODUK DIJUMPAI
+            ============================================ -->
+
+            <div
+                class="no-product-found"
+                id="noProductFound"
+            >
+
+                <div class="no-product-icon">
+                    🔍
+                </div>
+
+
+                <div class="no-product-title">
+                    Produk tidak dijumpai
+                </div>
+
+
+                <div class="no-product-text">
+                    Cuba nama produk, SKU atau kategori lain.
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</main>
+<!-- =======================================================
+     BAHAGIAN 5
+     MODAL PEMBAYARAN
+======================================================== -->
+
+<div
+    class="payment-modal"
+    id="paymentModal"
+    aria-hidden="true"
+>
+
+    <div
+        class="payment-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="paymentModalTitle"
+    >
+
+
+        <!-- ===============================================
+             HEADER
+        ================================================ -->
+
+        <div class="payment-modal-header">
+
+            <div class="payment-modal-title-wrap">
+
+                <div
+                    class="payment-modal-title"
+                    id="paymentModalTitle"
+                >
+                    Pembayaran
+                </div>
+
+                <div class="payment-modal-subtitle">
+                    Pilih kaedah pembayaran pelanggan
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="payment-close-btn"
+                id="closePaymentModal"
+                aria-label="Tutup pembayaran"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <!-- ===============================================
+             PAYMENT CONTENT
+
+             Bahagian ini akan dikawal oleh JavaScript
+             dalam Bahagian 6.
+        ================================================ -->
+
+        <div
+            id="paymentContent"
+        >
+
+
+            <!-- ===========================================
+                 BODY
+            ============================================ -->
+
+            <div class="payment-modal-body">
+
+
+                <!-- =======================================
+                     JUMLAH BAYAR
+                ======================================== -->
+
+                <div class="payment-total-box">
+
+                    <div class="payment-total-label">
+                        Jumlah Perlu Dibayar
+                    </div>
+
+                    <div
+                        class="payment-total-amount"
+                        id="paymentTotalAmount"
+                    >
+                        RM0.00
+                    </div>
+
+                </div>
+
+
+                <!-- =======================================
+                     KAEDAH BAYARAN
+                ======================================== -->
+
+                <div class="payment-section-label">
+                    Kaedah Pembayaran
+                </div>
+
+
+                <div
+                    class="payment-methods"
+                    id="paymentMethods"
+                >
+
+
+                    <!-- TUNAI -->
+
+                    <button
+                        type="button"
+                        class="payment-method active"
+                        data-method="cash"
+                    >
+
+                        <span class="payment-method-icon">
+                            💵
+                        </span>
+
+                        <span class="payment-method-name">
+                            Tunai
+                        </span>
+
+                    </button>
+
+
+                    <!-- QR -->
+
+                    <button
+                        type="button"
+                        class="payment-method"
+                        data-method="qr"
+                    >
+
+                        <span class="payment-method-icon">
+                            ▦
+                        </span>
+
+                        <span class="payment-method-name">
+                            QR
+                        </span>
+
+                    </button>
+
+
+                    <!-- KAD -->
+
+                    <button
+                        type="button"
+                        class="payment-method"
+                        data-method="card"
+                    >
+
+                        <span class="payment-method-icon">
+                            💳
+                        </span>
+
+                        <span class="payment-method-name">
+                            Kad
+                        </span>
+
+                    </button>
+
+
+                    <!-- TRANSFER -->
+
+                    <button
+                        type="button"
+                        class="payment-method"
+                        data-method="transfer"
+                    >
+
+                        <span class="payment-method-icon">
+                            🏦
+                        </span>
+
+                        <span class="payment-method-name">
+                            Transfer
+                        </span>
+
+                    </button>
+
+                </div>
+
+
+                <!-- =======================================
+                     TUNAI
+                ======================================== -->
+
+                <div
+                    class="cash-payment-section"
+                    id="cashPaymentSection"
+                >
+
+                    <label
+                        class="payment-section-label"
+                        for="cashReceived"
+                    >
+                        Wang Diterima
+                    </label>
+
+
+                    <div class="cash-input-wrap">
+
+                        <span class="cash-prefix">
+                            RM
+                        </span>
+
+
+                        <input
+                            type="number"
+                            class="cash-input"
+                            id="cashReceived"
+                            min="0"
+                            step="0.01"
+                            inputmode="decimal"
+                            placeholder="0.00"
+                        >
+
+                    </div>
+
+
+                    <!-- ===============================
+                         QUICK CASH
+                    ================================ -->
+
+                    <div
+                        class="quick-cash"
+                        id="quickCash"
+                    >
+
+                        <button
+                            type="button"
+                            class="quick-cash-btn"
+                            data-cash="10"
+                        >
+                            RM10
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="quick-cash-btn"
+                            data-cash="20"
+                        >
+                            RM20
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="quick-cash-btn"
+                            data-cash="50"
+                        >
+                            RM50
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="quick-cash-btn"
+                            data-cash="100"
+                        >
+                            RM100
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="quick-cash-btn"
+                            id="exactCashBtn"
+                            data-cash="exact"
+                        >
+                            Wang Tepat
+                        </button>
+
+                    </div>
+
+
+                    <!-- ===============================
+                         BAKI
+                    ================================ -->
+
+                    <div
+                        class="payment-change-box"
+                        id="paymentChangeBox"
+                    >
+
+                        <div class="payment-change-label">
+                            Baki Pelanggan
+                        </div>
+
+                        <div
+                            class="payment-change"
+                            id="paymentChange"
+                        >
+                            RM0.00
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =======================================
+                     BUKAN TUNAI
+                ======================================== -->
+
+                <div
+                    class="non-cash-section"
+                    id="nonCashSection"
+                >
+
+                    <div class="non-cash-info">
+
+                        <div
+                            class="non-cash-icon"
+                            id="nonCashIcon"
+                        >
+                            ▦
+                        </div>
+
+
+                        <div class="non-cash-text">
+
+                            <div
+                                class="non-cash-title"
+                                id="nonCashTitle"
+                            >
+                                Pembayaran QR
+                            </div>
+
+
+                            <div
+                                class="non-cash-description"
+                                id="nonCashDescription"
+                            >
+                                Pastikan bayaran telah diterima
+                                sebelum mengesahkan transaksi.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =======================================
+                     CATATAN
+                ======================================== -->
+
+                <label
+                    class="payment-section-label"
+                    for="paymentNote"
+                >
+                    Catatan
+                </label>
+
+
+                <textarea
+                    class="payment-note"
+                    id="paymentNote"
+                    placeholder="Catatan pembayaran jika ada..."
+                ></textarea>
+
+            </div>
+
+
+            <!-- ===========================================
+                 FOOTER
+            ============================================ -->
+
+            <div class="payment-modal-footer">
+
+                <button
+                    type="button"
+                    class="
+                        payment-footer-btn
+                        payment-cancel
+                    "
+                    id="cancelPaymentBtn"
+                >
+                    BATAL
+                </button>
+
+
+                <button
+                    type="button"
+                    class="
+                        payment-footer-btn
+                        payment-confirm
+                    "
+                    id="confirmPaymentBtn"
+                    disabled
+                >
+                    SAHKAN BAYARAN
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ===============================================
+             PAYMENT SUCCESS
+
+             Hidden dahulu.
+             Akan muncul selepas transaksi berjaya.
+        ================================================ -->
+
+        <div
+            class="payment-success"
+            id="paymentSuccess"
+        >
+
+            <div class="payment-success-icon">
+                ✓
+            </div>
+
+
+            <div class="payment-success-title">
+                Bayaran Berjaya
+            </div>
+
+
+            <div class="payment-success-text">
+                Transaksi telah berjaya diselesaikan.
+            </div>
+
+
+            <div
+                class="payment-success-total"
+                id="paymentSuccessTotal"
+            >
+                RM0.00
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+
+<!-- =======================================================
+     SPMDR POS + SUPABASE
+======================================================== -->  
+
+<script>
+/* =========================================================
+   SPMDR - SPAREPART POS + SUPABASE
+   Produk + Pelanggan + Jualan + Jualan Detail + Stok
+========================================================= */
+
+const SUPABASE_READY = typeof supabaseClient !== "undefined";
+
+let db = SUPABASE_READY ? supabaseClient : null;
+let semuaProduk = [];
+let semuaPelanggan = [];
+let cart = [];
+let activeCategory = "semua";
+let discount = 0;
+let selectedPaymentMethod = "cash";
+let currentTransaction = 1;
+
+/* =========================================================
+   DOM
+========================================================= */
+const productGrid = document.getElementById("productGrid");
+const productSearchInput = document.getElementById("productSearchInput");
+const productCount = document.getElementById("productCount");
+const noProductFound = document.getElementById("noProductFound");
+const categoryList = document.querySelector(".category-list");
+const categoryButtonsStatic = Array.from(document.querySelectorAll(".category-btn"));
+
+const cartItems = document.getElementById("cartItems");
+const emptyCart = document.getElementById("emptyCart");
+const subtotalAmount = document.getElementById("subtotalAmount");
+const totalItems = document.getElementById("totalItems");
+const discountAmount = document.getElementById("discountAmount");
+const grandTotal = document.getElementById("grandTotal");
+const discountRow = document.getElementById("discountRow");
+const cancelTransactionBtn = document.getElementById("cancelTransactionBtn");
+const paymentBtn = document.getElementById("paymentBtn");
+const barcodeInput = document.getElementById("barcodeInput");
+const transactionNumber = document.getElementById("transactionNumber");
+const addCustomerBtn = document.getElementById("addCustomerBtn");
+const customerSelect = document.getElementById("customerSelect");
+
+const paymentModal = document.getElementById("paymentModal");
+const closePaymentModal = document.getElementById("closePaymentModal");
+const cancelPaymentBtn = document.getElementById("cancelPaymentBtn");
+const paymentTotalAmount = document.getElementById("paymentTotalAmount");
+const paymentMethods = Array.from(document.querySelectorAll(".payment-method"));
+const cashPaymentSection = document.getElementById("cashPaymentSection");
+const nonCashSection = document.getElementById("nonCashSection");
+const cashReceived = document.getElementById("cashReceived");
+const paymentChangeBox = document.getElementById("paymentChangeBox");
+const paymentChange = document.getElementById("paymentChange");
+const quickCashButtons = Array.from(document.querySelectorAll(".quick-cash-btn"));
+const nonCashIcon = document.getElementById("nonCashIcon");
+const nonCashTitle = document.getElementById("nonCashTitle");
+const nonCashDescription = document.getElementById("nonCashDescription");
+const paymentNote = document.getElementById("paymentNote");
+const confirmPaymentBtn = document.getElementById("confirmPaymentBtn");
+const paymentContent = document.getElementById("paymentContent");
+const paymentSuccess = document.getElementById("paymentSuccess");
+const paymentSuccessTotal = document.getElementById("paymentSuccessTotal");
+
+/* =========================================================
+   UTILITI
+========================================================= */
+function formatRM(value) {
+    return new Intl.NumberFormat("ms-MY", {
+        style: "currency",
+        currency: "MYR",
+        minimumFractionDigits: 2
+    }).format(Number(value) || 0);
+}
+
+function normalizeText(value) {
+    return String(value ?? "").toLowerCase().trim();
+}
+
+function escapeHTML(value) {
+    return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+function showMessage(message) {
+    window.alert(message);
+}
+
+function setBusy(button, busy, text = "") {
+    if (!button) return;
+    button.disabled = busy;
+    if (text) button.dataset.originalText = button.textContent;
+    if (busy && text) button.textContent = text;
+    if (!busy && button.dataset.originalText) {
+        button.textContent = button.dataset.originalText;
+        delete button.dataset.originalText;
+    }
+}
+
+function makeReceiptNo() {
+    const d = new Date();
+    const pad = n => String(n).padStart(2, "0");
+    const random = Math.random().toString(36).slice(2, 7).toUpperCase();
+    return `POS-${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}-${random}`;
+}
+
+function displayReceiptNo(no) {
+    return "#" + String(no).slice(-3);
+}
+
+/* =========================================================
+   SUPABASE CHECK
+========================================================= */
+function requireDB() {
+    if (!db) {
+        showMessage("Supabase belum disambungkan. Pastikan js/config.js dimuat sebelum POS.");
+        return false;
+    }
+    return true;
+}
+
+/* =========================================================
+   LOAD PRODUK DARI SUPABASE
+========================================================= */
+async function loadProduk() {
+    if (!requireDB()) return;
+
+    const { data, error } = await db
+        .from("produk")
+        .select("id,kod_produk,nama_produk,kategori,harga_jual,stok,barcode,status")
+        .eq("status", "AKTIF")
+        .order("nama_produk");
+
+    if (error) {
+        console.error("LOAD PRODUK:", error);
+        showMessage("Gagal memuat produk dari Supabase.\n\n" + error.message);
+        return;
+    }
+
+    semuaProduk = (data || []).map(p => ({
+        id: String(p.id),
+        category: p.kategori || "Lain-lain",
+        name: p.nama_produk || "Tanpa Nama",
+        code: p.kod_produk || "-",
+        barcode: p.barcode || "",
+        price: Number(p.harga_jual) || 0,
+        stock: Number(p.stok) || 0
+    }));
+
+    renderCategories();
+    renderProducts();
+    filterProducts();
+}
+
+/* =========================================================
+   LOAD PELANGGAN DARI SUPABASE
+========================================================= */
+async function loadPelanggan() {
+    if (!requireDB()) return;
+
+    const { data, error } = await db
+        .from("pelanggan")
+        .select("id,nama_pelanggan,no_telefon,alamat")
+        .order("nama_pelanggan");
+
+    if (error) {
+        console.error("LOAD PELANGGAN:", error);
+        showMessage("Gagal memuat pelanggan.\n\n" + error.message);
+        return;
+    }
+
+    semuaPelanggan = data || [];
+    renderCustomers();
+}
+
+function renderCustomers() {
+    const current = customerSelect.value;
+    customerSelect.innerHTML = `<option value="">Walk-in Customer</option>`;
+
+    semuaPelanggan.forEach(p => {
+        const option = document.createElement("option");
+        option.value = String(p.id);
+        option.textContent = p.nama_pelanggan || "Tanpa Nama";
+        customerSelect.appendChild(option);
+    });
+
+    if (current && semuaPelanggan.some(p => String(p.id) === current)) {
+        customerSelect.value = current;
+    } else {
+        customerSelect.value = "";
+    }
+}
+
+/* =========================================================
+   PRODUK CARD
+========================================================= */
+function renderCategories() {
+    if (!categoryList) return;
+
+    const categories = [...new Set(
+        semuaProduk
+            .map(p => String(p.category || "Lain-lain").trim())
+            .filter(Boolean)
+    )].sort((a, b) => a.localeCompare(b, "ms"));
+
+    categoryList.innerHTML = "";
+
+    const allBtn = document.createElement("button");
+    allBtn.type = "button";
+    allBtn.className = "category-btn active";
+    allBtn.dataset.category = "semua";
+    allBtn.textContent = "Semua";
+    categoryList.appendChild(allBtn);
+
+    categories.forEach(category => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "category-btn";
+        btn.dataset.category = normalizeText(category);
+        btn.textContent = category;
+        categoryList.appendChild(btn);
+    });
+}
+
+function renderProducts() {
+    if (!productGrid) return;
+
+    productGrid.innerHTML = "";
+
+    semuaProduk.forEach(product => {
+        const card = document.createElement("article");
+        card.className = "product-card" + (product.stock <= 0 ? " out-of-stock" : "");
+        card.dataset.id = product.id;
+        card.dataset.category = normalizeText(product.category);
+        card.dataset.name = product.name;
+        card.dataset.code = product.code;
+        card.dataset.barcode = product.barcode;
+        card.dataset.price = product.price;
+        card.dataset.stock = product.stock;
+
+        const stockClass = product.stock > 0 ? "stock-ok" : "stock-out";
+        const stockText = product.stock > 0 ? `STOK ${product.stock}` : "STOK HABIS";
+        const icon = product.stock > 0 ? "🔩" : "⚠️";
+
+        card.innerHTML = `
+            <div class="product-image">
+                <div class="product-placeholder">
+                    <div class="product-placeholder-icon">${icon}</div>
+                    <div class="product-placeholder-text">Sparepart</div>
+                </div>
+                <span class="stock-badge ${stockClass}">${stockText}</span>
+            </div>
+            <div class="product-info">
+                <div class="product-category-name">${escapeHTML(product.category)}</div>
+                <div class="product-name">${escapeHTML(product.name)}</div>
+                <div class="product-code">${escapeHTML(product.code)}</div>
+                <div class="product-bottom">
+                    <div class="product-price">${formatRM(product.price)}</div>
+                    <div class="product-stock">Baki ${product.stock}</div>
+                </div>
+            </div>
+            <div class="product-add">${product.stock > 0 ? "+ Tambah" : "Stok Habis"}</div>
+        `;
+
+        card.addEventListener("click", () => {
+            if (product.stock <= 0) {
+                showMessage("Produk ini telah habis stok.");
+                return;
+            }
+            addProduct(product);
+        });
+
+        productGrid.appendChild(card);
+    });
+}
+
+function getVisibleCards() {
+    return Array.from(productGrid.querySelectorAll(".product-card"));
+}
+
+function filterProducts() {
+    const keyword = normalizeText(productSearchInput.value);
+    const cards = getVisibleCards();
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+        const category = normalizeText(card.dataset.category);
+        const name = normalizeText(card.dataset.name);
+        const code = normalizeText(card.dataset.code);
+        const barcode = normalizeText(card.dataset.barcode);
+
+        const categoryMatch = activeCategory === "semua" || category === activeCategory;
+        const keywordMatch = !keyword || name.includes(keyword) || code.includes(keyword) || barcode.includes(keyword);
+        const visible = categoryMatch && keywordMatch;
+
+        card.style.display = visible ? "" : "none";
+        if (visible) visibleCount++;
+    });
+
+    productCount.textContent = `${visibleCount} Produk`;
+
+    if (visibleCount === 0) {
+        noProductFound.classList.add("show");
+        productGrid.style.display = "none";
+    } else {
+        noProductFound.classList.remove("show");
+        productGrid.style.display = "grid";
+    }
+}
+
+/* =========================================================
+   CART
+========================================================= */
+function calculateTotals() {
+    const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+    const itemCount = cart.reduce((sum, item) => sum + item.qty, 0);
+    const safeDiscount = Math.min(Math.max(Number(discount) || 0, 0), subtotal);
+    return { subtotal, itemCount, discount: safeDiscount, total: Math.max(subtotal - safeDiscount, 0) };
+}
+
+function addProduct(product) {
+    const existing = cart.find(item => String(item.id) === String(product.id));
+
+    if (existing) {
+        if (existing.qty >= existing.stock) {
+            showMessage("Kuantiti telah mencapai baki stok.");
+            return;
+        }
+        existing.qty++;
+    } else {
+        cart.push({ ...product, qty: 1 });
+    }
+
+    renderCart();
+}
+
+function renderCart() {
+    cartItems.querySelectorAll(".cart-item").forEach(el => el.remove());
+    emptyCart.style.display = cart.length ? "none" : "flex";
+
+    cart.forEach(product => {
+        const item = document.createElement("div");
+        item.className = "cart-item";
+        item.dataset.id = product.id;
+        item.innerHTML = `
+            <div class="cart-product">
+                <div class="cart-product-name">${escapeHTML(product.name)}</div>
+                <div class="cart-product-code">${escapeHTML(product.code)}</div>
+            </div>
+            <div class="cart-price">${formatRM(product.price)}</div>
+            <div class="qty-control">
+                <button type="button" class="qty-btn qty-minus" data-id="${product.id}">−</button>
+                <span class="qty-value">${product.qty}</span>
+                <button type="button" class="qty-btn qty-plus" data-id="${product.id}">+</button>
+            </div>
+            <div class="cart-item-total">${formatRM(product.price * product.qty)}</div>
+        `;
+        cartItems.appendChild(item);
+    });
+
+    updateSummary();
+}
+
+function updateSummary() {
+    const totals = calculateTotals();
+    subtotalAmount.textContent = formatRM(totals.subtotal);
+    totalItems.textContent = totals.itemCount;
+    discountAmount.textContent = formatRM(totals.discount);
+    grandTotal.textContent = formatRM(totals.total);
+    paymentBtn.disabled = cart.length === 0 || totals.total <= 0;
+}
+
+cartItems.addEventListener("click", event => {
+    const plus = event.target.closest(".qty-plus");
+    const minus = event.target.closest(".qty-minus");
+    const id = (plus || minus)?.dataset.id;
+    if (!id) return;
+
+    const item = cart.find(p => String(p.id) === String(id));
+    if (!item) return;
+
+    if (plus) {
+        if (item.qty >= item.stock) {
+            showMessage("Kuantiti telah mencapai baki stok.");
+            return;
+        }
+        item.qty++;
+    } else {
+        item.qty--;
+        if (item.qty <= 0) cart = cart.filter(p => String(p.id) !== String(id));
+    }
+
+    renderCart();
+});
+
+/* =========================================================
+   CATEGORY + SEARCH + BARCODE
+========================================================= */
+document.addEventListener("click", event => {
+    const btn = event.target.closest(".category-btn");
+    if (!btn) return;
+
+    document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    activeCategory = normalizeText(btn.dataset.category);
+    filterProducts();
+});
+
+productSearchInput.addEventListener("input", filterProducts);
+
+barcodeInput.addEventListener("keydown", event => {
+    if (event.key !== "Enter") return;
+    event.preventDefault();
+
+    const code = normalizeText(barcodeInput.value);
+    if (!code) return;
+
+    const product = semuaProduk.find(p =>
+        normalizeText(p.barcode) === code || normalizeText(p.code) === code
+    );
+
+    if (!product) {
+        showMessage("Kod barang / barcode tidak dijumpai.");
+        barcodeInput.select();
+        return;
+    }
+
+    if (product.stock <= 0) {
+        showMessage("Produk dijumpai tetapi stok telah habis.");
+        barcodeInput.select();
+        return;
+    }
+
+    addProduct(product);
+    barcodeInput.value = "";
+    barcodeInput.focus();
+});
+
+/* =========================================================
+   DISKAUN + BATAL
+========================================================= */
+discountRow.addEventListener("click", () => {
+    if (!cart.length) return;
+    const totals = calculateTotals();
+    const value = window.prompt("Masukkan jumlah diskaun (RM):", discount.toFixed(2));
+    if (value === null) return;
+
+    const amount = Number(value);
+    if (!Number.isFinite(amount) || amount < 0) {
+        showMessage("Jumlah diskaun tidak sah.");
+        return;
+    }
+
+    discount = Math.min(amount, totals.subtotal);
+    renderCart();
+});
+
+cancelTransactionBtn.addEventListener("click", () => {
+    if (!cart.length) return;
+    if (window.confirm("Batalkan transaksi semasa?")) resetTransaction();
+});
+
+/* =========================================================
+   PAYMENT MODAL
+========================================================= */
+function openPaymentModal() {
+    const totals = calculateTotals();
+    if (!cart.length || totals.total <= 0) return;
+
+    paymentTotalAmount.textContent = formatRM(totals.total);
+    paymentSuccessTotal.textContent = formatRM(totals.total);
+    selectedPaymentMethod = "cash";
+    cashReceived.value = "";
+    paymentNote.value = "";
+
+    paymentMethods.forEach(btn => btn.classList.toggle("active", btn.dataset.method === "cash"));
+    cashPaymentSection.style.display = "block";
+    nonCashSection.classList.remove("show");
+    paymentContent.style.display = "block";
+    paymentSuccess.classList.remove("show");
+    paymentChange.textContent = formatRM(0);
+    paymentChangeBox.classList.remove("insufficient");
+    confirmPaymentBtn.disabled = true;
+
+    paymentModal.classList.add("show");
+    paymentModal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    setTimeout(() => cashReceived.focus(), 100);
+}
+
+function closePayment() {
+    paymentModal.classList.remove("show");
+    paymentModal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+}
+
+paymentBtn.addEventListener("click", openPaymentModal);
+closePaymentModal.addEventListener("click", closePayment);
+cancelPaymentBtn.addEventListener("click", closePayment);
+paymentModal.addEventListener("click", e => {
+    if (e.target === paymentModal) closePayment();
+});
+
+document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && paymentModal.classList.contains("show")) closePayment();
+});
+
+paymentMethods.forEach(button => {
+    button.addEventListener("click", () => {
+        selectedPaymentMethod = button.dataset.method;
+        paymentMethods.forEach(btn => btn.classList.toggle("active", btn === button));
+
+        const isCash = selectedPaymentMethod === "cash";
+        cashPaymentSection.style.display = isCash ? "block" : "none";
+        nonCashSection.classList.toggle("show", !isCash);
+
+        if (!isCash) {
+            const config = {
+                qr: ["▦", "Pembayaran QR", "Pastikan bayaran QR telah diterima sebelum mengesahkan transaksi."],
+                card: ["💳", "Pembayaran Kad", "Pastikan bayaran kad telah berjaya sebelum mengesahkan transaksi."],
+                transfer: ["🏦", "Bank Transfer", "Pastikan wang telah diterima sebelum mengesahkan transaksi."]
+            }[selectedPaymentMethod];
+            nonCashIcon.textContent = config[0];
+            nonCashTitle.textContent = config[1];
+            nonCashDescription.textContent = config[2];
+            confirmPaymentBtn.disabled = false;
+        } else {
+            updateCashPayment();
+        }
+    });
+});
+
+function updateCashPayment() {
+    const total = calculateTotals().total;
+    const received = Number(cashReceived.value) || 0;
+    const balance = received - total;
+
+    if (received >= total && total > 0) {
+        paymentChange.textContent = formatRM(balance);
+        paymentChangeBox.classList.remove("insufficient");
+        confirmPaymentBtn.disabled = false;
+    } else {
+        paymentChange.textContent = "Kurang " + formatRM(Math.abs(balance));
+        paymentChangeBox.classList.add("insufficient");
+        confirmPaymentBtn.disabled = true;
+    }
+}
+
+cashReceived.addEventListener("input", updateCashPayment);
+
+quickCashButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        const value = button.dataset.cash;
+        const total = calculateTotals().total;
+        cashReceived.value = value === "exact" ? total.toFixed(2) : Number(value).toFixed(2);
+        updateCashPayment();
+    });
+});
+
+/* =========================================================
+   SIMPAN TRANSAKSI KE SUPABASE
+   Menggunakan RPC atomic: proses_jualan_pos
+========================================================= */
+async function saveSaleToSupabase() {
+    if (!requireDB()) return false;
+
+    const totals = calculateTotals();
+    const noResit = makeReceiptNo();
+    const pelangganId = customerSelect.value ? Number(customerSelect.value) : null;
+
+    const items = cart.map(item => ({
+        produk_id: Number(item.id),
+        kuantiti: Number(item.qty),
+        harga: Number(item.price)
+    }));
+
+    const payload = {
+        p_no_resit: noResit,
+        p_pelanggan_id: pelangganId,
+        p_jumlah: totals.total,
+        p_jenis_bayaran: selectedPaymentMethod,
+        p_catatan: [
+            totals.discount > 0 ? `Diskaun: RM${totals.discount.toFixed(2)}` : "",
+            paymentNote.value.trim()
+        ].filter(Boolean).join(" | "),
+        p_items: items
+    };
+
+    const { data, error } = await db.rpc("proses_jualan_pos", payload);
+
+    if (error) {
+        console.error("SIMPAN JUALAN:", error);
+        showMessage("Transaksi gagal disimpan.\n\n" + error.message);
+        return false;
+    }
+
+    console.log("TRANSAKSI BERJAYA:", data);
+    return true;
+}
+
+confirmPaymentBtn.addEventListener("click", async () => {
+    if (!cart.length) return;
+
+    const totals = calculateTotals();
+
+    if (selectedPaymentMethod === "cash") {
+        const received = Number(cashReceived.value) || 0;
+        if (received < totals.total) {
+            showMessage("Wang diterima tidak mencukupi.");
+            return;
+        }
+    }
+
+    setBusy(confirmPaymentBtn, true, "MENYIMPAN...");
+
+    try {
+        const saved = await saveSaleToSupabase();
+        if (!saved) return;
+
+        await loadProduk();
+        completePayment(totals.total);
+    } finally {
+        if (paymentModal.classList.contains("show")) {
+            setBusy(confirmPaymentBtn, false);
+        }
+    }
+});
+
+function completePayment(totalPaid) {
+    confirmPaymentBtn.disabled = true;
+    paymentSuccessTotal.textContent = formatRM(totalPaid);
+    paymentContent.style.display = "none";
+    paymentSuccess.classList.add("show");
+
+    setTimeout(() => {
+        closePayment();
+        resetTransaction();
+        incrementTransaction();
+    }, 1600);
+}
+
+/* =========================================================
+   RESET
+========================================================= */
+function resetTransaction() {
+    cart = [];
+    discount = 0;
+    customerSelect.value = "";
+    barcodeInput.value = "";
+    productSearchInput.value = "";
+    activeCategory = "semua";
+
+    document.querySelectorAll(".category-btn").forEach(button => {
+        button.classList.toggle("active", button.dataset.category === "semua");
+    });
+
+    renderCart();
+    filterProducts();
+}
+
+function incrementTransaction() {
+    currentTransaction++;
+    transactionNumber.textContent = "#" + String(currentTransaction).padStart(3, "0");
+}
+
+/* =========================================================
+   TAMBAH PELANGGAN TERUS KE SUPABASE
+========================================================= */
+addCustomerBtn.addEventListener("click", async () => {
+    if (!requireDB()) return;
+
+    const name = window.prompt("Masukkan nama pelanggan:");
+    if (!name || !name.trim()) return;
+
+    const phone = window.prompt("No. telefon pelanggan (boleh kosong):", "");
+    const address = window.prompt("Alamat pelanggan (boleh kosong):", "");
+
+    const { data, error } = await db
+        .from("pelanggan")
+        .insert({
+            nama_pelanggan: name.trim(),
+            no_telefon: phone?.trim() || null,
+            alamat: address?.trim() || null
+        })
+        .select("id,nama_pelanggan,no_telefon,alamat")
+        .single();
+
+    if (error) {
+        console.error("TAMBAH PELANGGAN:", error);
+        showMessage("Gagal tambah pelanggan.\n\n" + error.message);
+        return;
+    }
+
+    semuaPelanggan.push(data);
+    semuaPelanggan.sort((a, b) => String(a.nama_pelanggan).localeCompare(String(b.nama_pelanggan), "ms"));
+    renderCustomers();
+    customerSelect.value = String(data.id);
+});
+
+/* =========================================================
+   INIT
+========================================================= */
+async function initPOS() {
+    if (!requireDB()) return;
+
+    renderCart();
+    transactionNumber.textContent = displayReceiptNo(makeReceiptNo());
+
+    await Promise.all([
+        loadProduk(),
+        loadPelanggan()
+    ]);
+
+    barcodeInput.focus();
+}
+
+initPOS();
+</script>
+</body>
+</html>
